@@ -111,3 +111,5 @@ Date:   Mon Oct 26 21:51:35 2020 +0200
 
  tiedosto.txt | 0
  1 file changed, 0 insertions(+), 0 deletions(-)
+ 
+ Epäsynkrooni
