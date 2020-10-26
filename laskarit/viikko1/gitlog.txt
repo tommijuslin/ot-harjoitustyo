@@ -1,0 +1,113 @@
+commit 31800fad4e28f93d60aba0288addc24b23f8e624
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:28:53 2020 +0200
+
+    file1 poistettu, file2 uudelleennimetty
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 649abb2021e246ffe941470add664f585722a7ac
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:22:19 2020 +0200
+
+    tiedostoja luotu
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 0d2b01f0ef0145c9098392fa275239a41e3b4a2a
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:17:12 2020 +0200
+
+    eka.txt ja kolmas.txt muutettu
+
+ eka.txt    | 6 +++---
+ kolmas.txt | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 5ed0696e98349f4b0d3d5195d8f155fd0c887cc2
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:15:07 2020 +0200
+
+    tiedosto.txt uudelleennimetty
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 1cc731383d4febcb2acc6a9015bcf79bd382ada0
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:14:08 2020 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 3d65d3049257700cf2996dfa973bf4b1c5f97330
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:12:19 2020 +0200
+
+    tiedosto.txt muutettu lisää
+
+ tiedosto.txt | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+commit ec12a17d925dffa9469aa169b7b4a788a31469d1
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:11:27 2020 +0200
+
+    tiedosto.txt muutettu
+
+ tiedosto.txt | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+commit 7653cbcaee74595d9cd92f978e9a2313ad588e5c
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 22:00:34 2020 +0200
+
+    stuff luotu
+
+ stuff/salatiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit ff1988c5bf5711b8e4b75283058a4db6b465bde5
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 21:59:19 2020 +0200
+
+    toinen.txt ja kolmas.txt sisältöä muutettu
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit ba57427ee967f14c1d68461922030ae5ac6c39e7
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 21:57:33 2020 +0200
+
+    tiedosto kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 388c5bbfe230a37fc30681cac9c3fe24b1da80a9
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 21:55:07 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit d70d92a98746fb85f390cc3723bd8f6bb4c7cb3c
+Author: Tommi Juslin <tommi.juslin@gmail.com>
+Date:   Mon Oct 26 21:51:35 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
