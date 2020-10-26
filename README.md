@@ -1,3 +1,6 @@
-# Tommonen otsikko tost
+# Ohjelmistotekniikka, harjoitustyö
+## Tehtävät
+### Viikko 1
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed hendrerit mi. Maecenas bibendum, dolor non placerat pellentesque, odio augue consectetur leo, a porta dui turpis eget diam. **Nullam sodales molestie tempor.** Vestibulum vehicula elementum nisi et volutpat. Donec eros quam, elementum non tempor in, tempor vitae eros. Donec tristique est non erat tristique, non dapibus urna tempor. Pellentesque ut dui nulla. Morbi id urna ultricies lacus hendrerit congue sed vitae turpis. Donec tempus velit eu hendrerit vulputate. Sed vel diam ac ligula ultricies vehicula. *Sed non augue eu nulla consequat imperdiet vel eget nunc. Duis sit amet arcu ex.* Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus luctus risus eget eros condimentum, et pretium arcu mollis. 
+[gitlog.txt](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+[komentorivi.txt](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
