@@ -17,3 +17,12 @@ Sovellus on versio klassisesta Tetris-pelistä, jossa pelaajan päämääränä 
 - käyttäjä voi liikuttaa palikkaa oikealle ja vasemmalle
 - käyttäjä voi nopeuttaa palan putoamista
 - käyttäjä voi pyörittää palikoita vasemmalle tai oikealle
+- käyttäjä voi kerätä pisteitä asettelemalla palikoita niin, että ne muodostavat vaakarivin
+- seuraava palikka generoidaan satunnaisesti
+
+### Jatkokehitysideoita
+- käyttäjä voi valita vaikeustason ennen pelin aloittamista (mitä vaikeampi, sitä nopeampi peli on)
+- peli nopeutuu ajan kuluessa (esim. jonkin tietyn ajan välein)
+- ns. bad luck protection. Palikoita ei generoida täysin satunnaisesti. Peli ei voi esimerkiksi generoida samaa palikkaa 5 kertaa peräkkäin
+- peli näyttää seuraavan palikan
+- pisteet määräytyy sen mukaan, kuinka monta vaakariviä tuhotaan kerralla
