@@ -15,7 +15,7 @@ Sovellus on versio klassisesta Tetris-pelistä, jossa pelaajan päämääränä 
 
 ### Pelin aloittamisen jälkeen
 - käyttäjä voi liikuttaa palikkaa oikealle ja vasemmalle
-- käyttäjä voi nopeuttaa palan putoamista
+- käyttäjä voi nopeuttaa palikan putoamista
 - käyttäjä voi pyörittää palikoita vasemmalle tai oikealle
 - käyttäjä voi kerätä pisteitä asettelemalla palikoita niin, että ne muodostavat vaakarivin
 - seuraava palikka generoidaan satunnaisesti
