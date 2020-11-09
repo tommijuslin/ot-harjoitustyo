@@ -6,6 +6,6 @@
 
 [komentorivi.txt](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
-Testi
+### Dokumentaatio
 
-Testi2
+[Vaatimusmäärittely](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
