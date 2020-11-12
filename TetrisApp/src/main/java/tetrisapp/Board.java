@@ -14,6 +14,10 @@ public class Board {
     public static int[][] grid = new int[BOARD_WIDTH][BOARD_HEIGHT];
     private final List<Block> blocks = new ArrayList<>();
     private Block currentBlock;
+    private boolean isValid;
+    public enum Direction {
+        UP, RIGHT, DOWN, LEFT
+    }
 
     public void updateBoard(GraphicsContext gc) {
         gc.clearRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
@@ -42,31 +46,69 @@ public class Board {
         blocks.forEach(b -> b.draw(gc));
     }
 
-    public void moveDown() {
-        if (currentBlock.getY() == BOARD_HEIGHT - 1) {
-            this.spawnBlock(4, 0);
-        } else if (grid[currentBlock.getX()][currentBlock.getY() + 1] == 1) {
-            this.spawnBlock(4, 0);
-        } else if (currentBlock.getY() < BOARD_HEIGHT - 1) {
-            removeBlock(currentBlock);
-            currentBlock.setY(currentBlock.getY() + 1);
-            addBlock(currentBlock);
+    public void move(Direction direction) {
+        removeBlock(currentBlock);
+
+        int x = 0;
+        int y = 0;
+
+        switch (direction) {
+            case LEFT:
+                x = -1;
+                break;
+            case RIGHT:
+                x = 1;
+                break;
+            case DOWN:
+                y = 1;
+                break;
+        }
+
+        isValid = checkCollisions(x, y);
+
+        if (isValid) {
+            currentBlock.setX(currentBlock.getX() + x);
+            currentBlock.setY(currentBlock.getY() + y);
+        }
+
+        addBlock(currentBlock);
+
+        if (y == 1 && !isValid) {
+            spawnBlock(4, 0);
         }
     }
 
-    public void moveRight() {
-        if (currentBlock.getX() < BOARD_WIDTH - 1) {
-            removeBlock(currentBlock);
-            currentBlock.setX(currentBlock.getX() + 1);
-            addBlock(currentBlock);
-        }
-    }
+    public boolean checkCollisions(int x, int y) {
+        if (x == 1) {
+            if (currentBlock.getX() == BOARD_WIDTH - 1) {
+                return false;
+            }
 
-    public void moveLeft() {
-        if (currentBlock.getX() > 0) {
-            removeBlock(currentBlock);
-            currentBlock.setX(currentBlock.getX() - 1);
-            addBlock(currentBlock);
+            if (grid[currentBlock.getX() + 1][currentBlock.getY()] > 0) {
+                return false;
+            }
         }
+
+        if (x == -1) {
+            if (currentBlock.getX() == 0) {
+                return false;
+            }
+
+            if (grid[currentBlock.getX() - 1][currentBlock.getY()] > 0) {
+                return false;
+            }
+        }
+
+        if (y == 1) {
+            if (currentBlock.getY() == BOARD_HEIGHT - 1) {
+                return false;
+            }
+
+            if (grid[currentBlock.getX()][currentBlock.getY() + 1] > 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

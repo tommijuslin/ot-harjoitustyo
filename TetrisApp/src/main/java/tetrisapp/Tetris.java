@@ -39,15 +39,15 @@ public class Tetris extends Application {
                     board.updateBoard(gc);
                     scene.setOnKeyPressed(e -> {
                         if (e.getCode() == KeyCode.RIGHT) {
-                            board.moveRight();
+                            board.move(Board.Direction.RIGHT);
                         } else if (e.getCode() == KeyCode.LEFT) {
-                            board.moveLeft();
+                            board.move(Board.Direction.LEFT);
                         } else if (e.getCode() == KeyCode.DOWN) {
-                            board.moveDown();
+                            board.move(Board.Direction.DOWN);
                         }
                         board.updateBoard(gc);
                     });
-                    board.moveDown();
+                    board.move(Board.Direction.DOWN);
                     time = 0;
                 }
             }
