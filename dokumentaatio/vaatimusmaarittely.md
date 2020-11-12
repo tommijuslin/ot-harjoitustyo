@@ -2,7 +2,7 @@
 
 ## Sovelluksen tarkoitus
 
-Sovellus on versio klassisesta Tetris-pelistä, jossa pelaajan päämääränä on pudotella erimuotoisia palikoita (tetraminoja) ja muodostaa niistä vaakasuoria rivejä.
+Sovellus on versio klassisesta Tetris-pelistä, jossa pelaajan päämääränä on pudotella erimuotoisia palikoita (tetrominoja) ja muodostaa niistä vaakasuoria rivejä.
 
 ## Käyttöliittymäluonnos
 
