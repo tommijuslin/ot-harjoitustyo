@@ -12,7 +12,7 @@ public class Board {
     public static final int BOARD_HEIGHT = 20;
     public static final int BLOCK_SIZE = 40;
     public static int[][] grid = new int[BOARD_WIDTH][BOARD_HEIGHT];
-    private List<Block> blocks = new ArrayList<>();
+    private final List<Block> blocks = new ArrayList<>();
     private Block currentBlock;
 
     public void updateBoard(GraphicsContext gc) {
@@ -23,8 +23,8 @@ public class Board {
         System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
 
-    public void spawnBlock() {
-        Block block = new Block(4, 0);
+    public void spawnBlock(int x, int y) {
+        Block block = new Block(x, y);
         blocks.add(block);
         currentBlock = block;
         addBlock(block);
@@ -42,23 +42,15 @@ public class Board {
         blocks.forEach(b -> b.draw(gc));
     }
 
-    public void checkBounds() {
-    }
-
-    public void clearRow() {
-    }
-
     public void moveDown() {
-        if (grid[currentBlock.getX()][currentBlock.getY() + 1] == 1) {
-            this.spawnBlock();
+        if (currentBlock.getY() == BOARD_HEIGHT - 1) {
+            this.spawnBlock(4, 0);
+        } else if (grid[currentBlock.getX()][currentBlock.getY() + 1] == 1) {
+            this.spawnBlock(4, 0);
         } else if (currentBlock.getY() < BOARD_HEIGHT - 1) {
             removeBlock(currentBlock);
             currentBlock.setY(currentBlock.getY() + 1);
             addBlock(currentBlock);
-        }
-
-        if (currentBlock.getY() == BOARD_HEIGHT - 1) {
-            this.spawnBlock();
         }
     }
 
@@ -76,9 +68,5 @@ public class Board {
             currentBlock.setX(currentBlock.getX() - 1);
             addBlock(currentBlock);
         }
-    }
-
-    public Block getCurrentBlock() {
-        return currentBlock;
     }
 }

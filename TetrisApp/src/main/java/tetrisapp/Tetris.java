@@ -29,7 +29,7 @@ public class Tetris extends Application {
         stage.setScene(scene);
         stage.show();
 
-        board.spawnBlock();
+        board.spawnBlock(4, 0);
 
         new AnimationTimer() {
             @Override
