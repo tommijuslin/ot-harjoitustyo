@@ -6,6 +6,8 @@ Sovellus on versio klassisesta Tetris-pelistä, jossa pelaajan päämääränä 
 
 ## Käyttöliittymäluonnos
 
+![tetris ui mockup](https://raw.githubusercontent.com/tommijuslin/ot-harjoitustyo/master/dokumentaatio/kuvat/tetris-ui-mockup.png)
+
 ## Perusversion tarjoama toiminnallisuus
 
 ### Ennen pelin aloittamista
