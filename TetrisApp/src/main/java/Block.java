@@ -1,7 +1,7 @@
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
 import java.util.Random;
+import javafx.scene.Group;
+import javafx.scene.shape.Rectangle;
 
 public class Block {
 
@@ -31,8 +31,13 @@ public class Block {
 
     public void setY(int y) { this.y = y; }
 
-    public void draw(GraphicsContext gc) {
-        gc.setFill(this.color);
-        gc.fillRect(this.x * Board.BLOCK_SIZE, this.y * Board.BLOCK_SIZE, Board.BLOCK_SIZE, Board.BLOCK_SIZE);
+    public void draw(Group g) {
+        Rectangle r = new Rectangle();
+        r.setHeight(Board.BLOCK_SIZE);
+        r.setWidth(Board.BLOCK_SIZE);
+        r.setTranslateX(this.x * Board.BLOCK_SIZE);
+        r.setTranslateY(this.y * Board.BLOCK_SIZE);
+        r.setFill(color);
+        g.getChildren().add(r);
     }
 }

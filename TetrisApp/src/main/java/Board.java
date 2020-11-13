@@ -1,8 +1,7 @@
-import javafx.scene.canvas.GraphicsContext;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.scene.Group;
 
 public class Board {
 
@@ -17,10 +16,10 @@ public class Board {
         UP, RIGHT, DOWN, LEFT
     }
 
-    public void updateBoard(GraphicsContext gc) {
-        gc.clearRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
+    public void updateBoard(Group g) {
+        g.getChildren().clear();
 
-        this.drawBlocks(gc);
+        this.drawBlocks(g);
 
         System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
@@ -40,8 +39,8 @@ public class Board {
         grid[block.getX()][block.getY()]--;
     }
 
-    public void drawBlocks(GraphicsContext gc) {
-        blocks.forEach(b -> b.draw(gc));
+    public void drawBlocks(Group g) {
+        blocks.forEach(b -> b.draw(g));
     }
 
     public void move(Direction direction) {
