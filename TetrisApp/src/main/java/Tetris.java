@@ -21,7 +21,7 @@ public class Tetris extends Application {
         stage.show();
 
         Board board = new Board();
-        board.spawnBlock(4, 0);
+        board.spawnTetromino();
 
         new AnimationTimer() {
             @Override
