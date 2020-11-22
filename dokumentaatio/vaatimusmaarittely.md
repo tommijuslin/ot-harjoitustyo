@@ -16,12 +16,12 @@ Sovellus on versio klassisesta Tetris-pelistä, jossa pelaajan päämääränä 
 - käyttäjä voi sulkea pelin
 
 ### Pelin aloittamisen jälkeen
-- käyttäjä voi liikuttaa palikkaa oikealle ja vasemmalle
-- käyttäjä voi nopeuttaa palikan putoamista
+- käyttäjä voi liikuttaa palikkaa oikealle ja vasemmalle **tehty**
+- käyttäjä voi nopeuttaa palikan putoamista **tehty**
 - käyttäjä voi pyörittää palikoita vasemmalle tai oikealle
 - käyttäjä voi kerätä pisteitä asettelemalla palikoita niin, että ne muodostavat vaakarivin
 - käyttäjä voi siirtyä pelistä takaisin valikkoon
-- seuraava palikka generoidaan satunnaisesti
+- seuraava palikka generoidaan satunnaisesti **tehty**
 - peli päättyy jos palikat yltävät ruudun yläreunaan
 
 ### Jatkokehitysideoita
