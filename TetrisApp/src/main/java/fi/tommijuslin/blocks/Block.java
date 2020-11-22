@@ -1,3 +1,5 @@
+package fi.tommijuslin.blocks;
+
 
 import java.util.Random;
 
@@ -20,7 +22,11 @@ public class Block {
         return this.x;
     }
 
-    public void setX(int x) { this.x = x; }
+    public void setX(int x) {
+        this.x = x;
+    }
 
-    public void setY(int y) { this.y = y; }
+    public void setY(int y) {
+        this.y = y;
+    }
 }

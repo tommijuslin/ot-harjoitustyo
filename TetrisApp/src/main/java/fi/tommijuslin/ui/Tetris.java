@@ -1,3 +1,5 @@
+package fi.tommijuslin.ui;
+
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -6,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import fi.tommijuslin.logic.Board;
 
 public class Tetris extends Application {
 
@@ -21,8 +24,7 @@ public class Tetris extends Application {
         stage.show();
 
         Board board = new Board();
-        // board.spawnTetromino();
-        board.spawnSpecificTetromino(Shape.S, 6, 0);
+        board.spawnTetromino();
 
         new AnimationTimer() {
             @Override

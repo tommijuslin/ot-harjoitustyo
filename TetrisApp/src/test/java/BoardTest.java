@@ -1,3 +1,5 @@
+import fi.tommijuslin.blocks.Shape;
+import fi.tommijuslin.logic.Board;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

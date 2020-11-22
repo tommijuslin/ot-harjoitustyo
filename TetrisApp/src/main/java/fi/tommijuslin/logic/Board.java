@@ -1,4 +1,9 @@
+package fi.tommijuslin.logic;
 
+
+import fi.tommijuslin.blocks.Shape;
+import fi.tommijuslin.blocks.Tetromino;
+import fi.tommijuslin.blocks.Block;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +20,7 @@ public class Board {
     private boolean isValid;
     private int c1, c2, c3, c4, c5, c6, c7, c8;
     
-        public enum Direction {
+    public enum Direction {
         UP, RIGHT, DOWN, LEFT
     }
         
@@ -32,7 +37,7 @@ public class Board {
 
         tetrominos.forEach(t -> t.draw(g));
 
-        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
+//        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
     
     public void spawnTetromino() {
@@ -48,10 +53,10 @@ public class Board {
         c7 = shape.coords[3][0];
         c8 = shape.coords[3][1];
         
-        block[0] = new Block(c1,c2);
-        block[1] = new Block(c3,c4);
-        block[2] = new Block(c5,c6);
-        block[3] = new Block(c7,c8);
+        block[0] = new Block(c1, c2);
+        block[1] = new Block(c3, c4);
+        block[2] = new Block(c5, c6);
+        block[3] = new Block(c7, c8);
         
         Tetromino tetromino = new Tetromino(block);
         tetrominos.add(tetromino);
@@ -78,10 +83,10 @@ public class Board {
         c7 = shape.coords[3][0];
         c8 = shape.coords[3][1];
         
-        block[0] = new Block(c1+x,c2+y);
-        block[1] = new Block(c3+x,c4+y);
-        block[2] = new Block(c5+x,c6+y);
-        block[3] = new Block(c7+x,c8+y);
+        block[0] = new Block(c1 + x, c2 + y);
+        block[1] = new Block(c3 + x, c4 + y);
+        block[2] = new Block(c5 + x, c6 + y);
+        block[3] = new Block(c7 + x, c8 + y);
         
         Tetromino tetromino = new Tetromino(block);
         tetrominos.add(tetromino);
@@ -115,14 +120,16 @@ public class Board {
             case RIGHT:
                 x = 1;
                 break; 
-           case DOWN:
+            case DOWN:
                 y = 1;
                 break;
         }
         
         for (Block block : currentTetromino.blocks) {
             isValid = checkCollisions(x, y, block);
-            if (!isValid) { break; }
+            if (!isValid) {
+                break;
+            }
         }
         
         if (isValid) {
@@ -142,7 +149,7 @@ public class Board {
         
     }
     
-        public boolean checkCollisions(int x, int y, Block block) {
+    public boolean checkCollisions(int x, int y, Block block) {
         if (x == 1) {
             if (block.getX() == BOARD_WIDTH - 1) {
                 return false;

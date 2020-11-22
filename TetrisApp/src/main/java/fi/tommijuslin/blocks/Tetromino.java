@@ -1,4 +1,8 @@
+package fi.tommijuslin.blocks;
 
+
+import fi.tommijuslin.logic.Board;
+import fi.tommijuslin.blocks.Block;
 import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.Group;
