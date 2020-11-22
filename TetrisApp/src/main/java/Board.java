@@ -2,7 +2,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import javafx.scene.Group;
 
 public class Board {
@@ -14,11 +13,18 @@ public class Board {
     private final List<Tetromino> tetrominos = new ArrayList<>();
     private Tetromino currentTetromino;
     private boolean isValid;
-    private final Random rand = new Random();
     private int c1, c2, c3, c4, c5, c6, c7, c8;
     
         public enum Direction {
         UP, RIGHT, DOWN, LEFT
+    }
+        
+    public void initBoard() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j] = 0;
+            }
+        }
     }
 
     public void updateBoard(Group g) {
@@ -46,6 +52,36 @@ public class Board {
         block[1] = new Block(c3,c4);
         block[2] = new Block(c5,c6);
         block[3] = new Block(c7,c8);
+        
+        Tetromino tetromino = new Tetromino(block);
+        tetrominos.add(tetromino);
+        currentTetromino = tetromino;
+        
+        for (int i = 0; i < block.length; i++) {
+            addBlock(block[i]);
+        }
+        
+        move(Direction.RIGHT);
+        move(Direction.RIGHT);
+        move(Direction.RIGHT);
+    }
+    
+    public void spawnSpecificTetromino(Shape shape, int x, int y) {
+        Block[] block = new Block[4];
+
+        c1 = shape.coords[0][0];
+        c2 = shape.coords[0][1];
+        c3 = shape.coords[1][0];
+        c4 = shape.coords[1][1];
+        c5 = shape.coords[2][0];
+        c6 = shape.coords[2][1];
+        c7 = shape.coords[3][0];
+        c8 = shape.coords[3][1];
+        
+        block[0] = new Block(c1+x,c2+y);
+        block[1] = new Block(c3+x,c4+y);
+        block[2] = new Block(c5+x,c6+y);
+        block[3] = new Block(c7+x,c8+y);
         
         Tetromino tetromino = new Tetromino(block);
         tetrominos.add(tetromino);

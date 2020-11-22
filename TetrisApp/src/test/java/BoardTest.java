@@ -9,56 +9,89 @@ public class BoardTest {
     @Before
     public void setUp() {
         board = new Board();
+        board.initBoard();
     }
 
-//    @Test
-//    public void blockIsCorrectlyAddedToGridWhenSpawned() {
-//        board.spawnTetromino();
-//        assertEquals(Board.grid[5][5], 1);
-//    }
-//
-//    @Test
-//    public void blockMovesDownCorrectlyOnGrid() {
-//        board.spawnTetromino();
-//        board.move(Board.Direction.DOWN);
-//        assertEquals(Board.grid[0][1], 1);
-//    }
-//
-//    @Test
-//    public void blockMovesLeftCorrectlyOnGrid() {
-//        board.spawnBlock(5, 1);
-//        board.move(Board.Direction.LEFT);
-//        assertEquals(Board.grid[4][1], 1);
-//    }
-//
-//    @Test
-//    public void blockMovesRightCorrectlyOnGrid() {
-//        board.spawnBlock(5, 0);
-//        board.move(Board.Direction.RIGHT);
-//        assertEquals(Board.grid[6][0], 1);
-//    }
-//
-//    @Test
-//    public void blockCantGoOffScreenBelow() {
-//        board.spawnBlock(0,18);
-//        board.move(Board.Direction.DOWN);
-//        board.move(Board.Direction.DOWN);
-//        assertEquals(Board.grid[0][19], 1);
-//    }
-//
-//    @Test
-//    public void blockCantGoOffScreenLeft() {
-//        board.spawnBlock(1,0);
-//        board.move(Board.Direction.LEFT);
-//        board.move(Board.Direction.LEFT);
-//        assertEquals(Board.grid[0][0], 1);
-//    }
-//
-//    @Test
-//    public void blockCantGoOffScreenRight() {
-//        board.spawnBlock(8,0);
-//        board.move(Board.Direction.RIGHT);
-//        board.move(Board.Direction.RIGHT);
-//        assertEquals(Board.grid[9][0], 1);
-//    }
+    @Test
+    public void tetrominoIsCorrectlyAddedToGridWhenSpawned() {
+        int x = 3;
+        int y = 0;
+        board.spawnSpecificTetromino(Shape.S, x, y);
+        assertEquals(Board.grid[1+x][0+y], 1);
+        assertEquals(Board.grid[2+x][0+y], 1);
+        assertEquals(Board.grid[0+x][1+y], 1);
+        assertEquals(Board.grid[1+x][1+y], 1);
+    }
+
+    @Test
+    public void tetrominoMovesDownCorrectlyOnGrid() {
+        int x = 3;
+        int y = 0;
+        board.spawnSpecificTetromino(Shape.S, x, y);
+        board.move(Board.Direction.DOWN);
+        assertEquals(Board.grid[1+x][0+y+1], 1);
+        assertEquals(Board.grid[2+x][0+y+1], 1);
+        assertEquals(Board.grid[0+x][1+y+1], 1);
+        assertEquals(Board.grid[1+x][1+y+1], 1);
+    }
+
+    @Test
+    public void tetrominoMovesLeftCorrectlyOnGrid() {
+        int x = 3;
+        int y = 0;
+        board.spawnSpecificTetromino(Shape.S, x, y);
+        board.move(Board.Direction.LEFT);
+        assertEquals(Board.grid[1+x-1][0+y], 1);
+        assertEquals(Board.grid[2+x-1][0+y], 1);
+        assertEquals(Board.grid[0+x-1][1+y], 1);
+        assertEquals(Board.grid[1+x-1][1+y], 1);
+    }
+    
+    @Test
+    public void tetrominoMovesRightCorrectlyOnGrid() {
+        int x = 3;
+        int y = 0;
+        board.spawnSpecificTetromino(Shape.S, x, y);
+        board.move(Board.Direction.RIGHT);
+        assertEquals(Board.grid[1+x+1][0+y], 1);
+        assertEquals(Board.grid[2+x+1][0+y], 1);
+        assertEquals(Board.grid[0+x+1][1+y], 1);
+        assertEquals(Board.grid[1+x+1][1+y], 1);
+    }
+
+    @Test
+    public void tetrominoCantGoOffScreenBelow() {
+        int x = 3;
+        int y = 18;
+        board.spawnSpecificTetromino(Shape.S, x, y);
+        board.move(Board.Direction.DOWN);
+        assertEquals(Board.grid[1+x][0+y], 1);
+        assertEquals(Board.grid[2+x][0+y], 1);
+        assertEquals(Board.grid[0+x][1+y], 1);
+        assertEquals(Board.grid[1+x][1+y], 1);
+    }
+
+    @Test
+    public void tetrominoCantGoOffScreenLeft() {
+        int x = 0;
+        int y = 0;
+        board.spawnSpecificTetromino(Shape.S, x, y);
+        board.move(Board.Direction.LEFT);
+        assertEquals(Board.grid[1+x][0+y], 1);
+        assertEquals(Board.grid[2+x][0+y], 1);
+        assertEquals(Board.grid[0+x][1+y], 1);
+        assertEquals(Board.grid[1+x][1+y], 1);
+    }
+
+    @Test
+    public void tetrominoCantGoOffScreenRight() {
+        int x = 7;
+        int y = 0;
+        board.spawnSpecificTetromino(Shape.S, x, y);
+        board.move(Board.Direction.RIGHT);
+        assertEquals(Board.grid[1+x][0+y], 1);
+        assertEquals(Board.grid[2+x][0+y], 1);
+        assertEquals(Board.grid[0+x][1+y], 1);
+        assertEquals(Board.grid[1+x][1+y], 1);
+    }
 }

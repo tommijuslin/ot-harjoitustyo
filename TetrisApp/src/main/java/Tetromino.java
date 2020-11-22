@@ -12,6 +12,7 @@ public class Tetromino {
         Color.CYAN, Color.DARKBLUE, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.PURPLE, Color.RED
     };
     Random rand = new Random();
+    int x, y;
     
     public Tetromino(Block[] blocks) {
         this.blocks = blocks;
