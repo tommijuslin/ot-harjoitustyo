@@ -1,8 +1,7 @@
 package fi.tommijuslin.logic;
 
-
-import fi.tommijuslin.blocks.Shape;
 import fi.tommijuslin.blocks.Tetromino;
+import fi.tommijuslin.blocks.Shape;
 import fi.tommijuslin.blocks.Block;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,11 +13,13 @@ public class Board {
     public static final int BOARD_WIDTH = 10;
     public static final int BOARD_HEIGHT = 20;
     public static final int BLOCK_SIZE = 40;
-    public static int[][] grid = new int[BOARD_WIDTH][BOARD_HEIGHT];
+    public static int[][] grid = new int[BOARD_HEIGHT][BOARD_WIDTH];
     private final List<Tetromino> tetrominos = new ArrayList<>();
-    private Tetromino currentTetromino;
+    public Tetromino currentTetromino;
     private boolean isValid;
-    private int c1, c2, c3, c4, c5, c6, c7, c8;
+    public int patternIndex = 0;
+    private int[][] pattern;
+    private Shape shape;
     
     public enum Direction {
         UP, RIGHT, DOWN, LEFT
@@ -31,120 +32,69 @@ public class Board {
             }
         }
     }
-
+    
     public void updateBoard(Group g) {
-        g.getChildren().clear();
-
+        g.getChildren().clear();     
         tetrominos.forEach(t -> t.draw(g));
-
 //        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
     
-    public void spawnTetromino() {
-        Block[] block = new Block[4];
-        Shape shape = Shape.getRandomShape();
-
-        c1 = shape.coords[0][0];
-        c2 = shape.coords[0][1];
-        c3 = shape.coords[1][0];
-        c4 = shape.coords[1][1];
-        c5 = shape.coords[2][0];
-        c6 = shape.coords[2][1];
-        c7 = shape.coords[3][0];
-        c8 = shape.coords[3][1];
+    public void spawn(Shape s) {
+        patternIndex = 0;
+        shape = s;
+        pattern = shape.array[0];
+        Block[] tetrominoBlocks = new Block[4];
+        int blockIndex = 0;
         
-        block[0] = new Block(c1, c2);
-        block[1] = new Block(c3, c4);
-        block[2] = new Block(c5, c6);
-        block[3] = new Block(c7, c8);
+        for (int row = 0; row < pattern.length; row++) {
+            for (int col = 0; col < pattern[row].length; col++) {
+                if (pattern[row][col] == 1) {
+                    Block block = new Block(col, row);
+                    tetrominoBlocks[blockIndex] = block;
+                    blockIndex++;
+                }
+            }
+        }
         
-        Tetromino tetromino = new Tetromino(block);
+        Tetromino tetromino = new Tetromino(tetrominoBlocks);
         tetrominos.add(tetromino);
         currentTetromino = tetromino;
         
-        for (int i = 0; i < block.length; i++) {
-            addBlock(block[i]);
-        }
-        
-        move(Direction.RIGHT);
-        move(Direction.RIGHT);
-        move(Direction.RIGHT);
+        move(3, 0);
     }
     
-    public void spawnSpecificTetromino(Shape shape, int x, int y) {
-        Block[] block = new Block[4];
-
-        c1 = shape.coords[0][0];
-        c2 = shape.coords[0][1];
-        c3 = shape.coords[1][0];
-        c4 = shape.coords[1][1];
-        c5 = shape.coords[2][0];
-        c6 = shape.coords[2][1];
-        c7 = shape.coords[3][0];
-        c8 = shape.coords[3][1];
-        
-        block[0] = new Block(c1 + x, c2 + y);
-        block[1] = new Block(c3 + x, c4 + y);
-        block[2] = new Block(c5 + x, c6 + y);
-        block[3] = new Block(c7 + x, c8 + y);
-        
-        Tetromino tetromino = new Tetromino(block);
-        tetrominos.add(tetromino);
-        currentTetromino = tetromino;
-        
-        for (int i = 0; i < block.length; i++) {
-            addBlock(block[i]);
-        }
-    }
-
-    public void addBlock(Block block) {
-        grid[block.getX()][block.getY()]++;
-    }
-
-    public void removeBlock(Block block) {
-        grid[block.getX()][block.getY()]--;
+    private void addToGrid(Block block) {
+        grid[block.getY()][block.getX()]++;
     }
     
-    public void move(Direction direction) {
-        for (int i = 0; i < currentTetromino.blocks.length; i++) {
-            removeBlock(currentTetromino.blocks[i]);
-        }
-        
-        int x = 0;
-        int y = 0;
-        
-        switch (direction) {
-            case LEFT:
-                x = -1;
-                break;
-            case RIGHT:
-                x = 1;
-                break; 
-            case DOWN:
-                y = 1;
-                break;
-        }
-        
-        for (Block block : currentTetromino.blocks) {
-            isValid = checkCollisions(x, y, block);
+    private void removeFromGrid(Block block) {
+        grid[block.getY()][block.getX()]--;
+    }
+    
+    public void move(int x, int y) {
+        for (Block b : currentTetromino.blocks) {
+            isValid = checkCollisions(x, y, b);
             if (!isValid) {
                 break;
             }
         }
         
         if (isValid) {
-            for (Block block : currentTetromino.blocks) {
-                block.setX(block.getX() + x);
-                block.setY(block.getY() + y);
+            for (Block b : currentTetromino.blocks) {
+                b.setX(b.getX() + x);
+                b.setY(b.getY() + y);
             }
-        }
-        
-        for (int i = 0; i < currentTetromino.blocks.length; i++) {
-            addBlock(currentTetromino.blocks[i]);
+            
+            currentTetromino.setX(currentTetromino.getX() + x);
+            currentTetromino.setY(currentTetromino.getY() + y);
+            
         }
         
         if (y == 1 && !isValid) {
-            spawnTetromino();
+            for (Block b : currentTetromino.blocks) {
+                addToGrid(b);
+            }
+            spawn(Shape.getRandomShape());
         }
         
     }
@@ -154,18 +104,18 @@ public class Board {
             if (block.getX() == BOARD_WIDTH - 1) {
                 return false;
             }
-
-            if (grid[block.getX() + 1][block.getY()] > 0) {
+            
+            if (grid[block.getY()][block.getX() + 1] > 0) {
                 return false;
             }
         }
-
+        
         if (x == -1) {
             if (block.getX() == 0) {
                 return false;
             }
 
-            if (grid[block.getX() - 1][block.getY()] > 0) {
+            if (grid[block.getY()][block.getX() - 1] > 0) {
                 return false;
             }
         }
@@ -174,12 +124,52 @@ public class Board {
             if (block.getY() == BOARD_HEIGHT - 1) {
                 return false;
             }
-
-            if (grid[block.getX()][block.getY() + 1] > 0) {
+            
+            if (grid[block.getY() + 1][block.getX()] > 0) {
                 return false;
             }
         }
-
+        
         return true;
+    }
+    
+    public void rotate() {
+        if (shape == Shape.O) {
+            return;
+        }
+        
+        patternIndex++;
+        if (patternIndex == 4) {
+            patternIndex = 0;
+        }
+        
+        int[][] potentialRotation = shape.array[patternIndex];
+        Block[] replacementBlocks = new Block[4];
+        int blockIndex = 0;
+        isValid = true;
+        
+        for (int row = 0; row < potentialRotation.length; row++) {
+            for (int col = 0; col < potentialRotation[row].length; col++) {
+                if (potentialRotation[row][col] == 1) {
+                    if (currentTetromino.getX() + col < 0 || currentTetromino.getX() + col > BOARD_WIDTH - 1) {
+                        isValid = false;
+                        break;
+                    } else if (grid[currentTetromino.getY() + row][currentTetromino.getX() + col] == 1) {
+                        isValid = false;
+                        break;
+                    } else {
+                        Block block = new Block(currentTetromino.getX() + col, currentTetromino.getY() + row);
+                        replacementBlocks[blockIndex] = block;
+                        blockIndex++;
+                    }
+                }
+            }
+        }
+        
+        if (isValid) {
+            currentTetromino.blocks = replacementBlocks;
+        } else {
+            patternIndex--;
+        }
     }
 }

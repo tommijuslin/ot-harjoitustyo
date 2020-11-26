@@ -1,6 +1,6 @@
 package fi.tommijuslin.ui;
 
-
+import fi.tommijuslin.blocks.Shape;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -24,25 +24,36 @@ public class Tetris extends Application {
         stage.show();
 
         Board board = new Board();
-        board.spawnTetromino();
+        board.spawn(Shape.getRandomShape());
 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
                 time += 0.017;
-                if (time >= 0.7) {
-                    board.updateBoard(root);
-                    scene.setOnKeyPressed(e -> {
+                
+                scene.setOnKeyPressed(e -> {
                         if (e.getCode() == KeyCode.RIGHT) {
-                            board.move(Board.Direction.RIGHT);
-                        } else if (e.getCode() == KeyCode.LEFT) {
-                            board.move(Board.Direction.LEFT);
-                        } else if (e.getCode() == KeyCode.DOWN) {
-                            board.move(Board.Direction.DOWN);
+                            board.move(1, 0);
                         }
+                        
+                        if (e.getCode() == KeyCode.LEFT) {
+                            board.move(-1, 0);
+                        }
+                        
+                        if (e.getCode() == KeyCode.DOWN) {
+                            board.move(0, 1);
+                        }
+                        
+                        if (e.getCode() == KeyCode.SPACE) {
+                            board.rotate();
+                        }
+                        
                         board.updateBoard(root);
                     });
-                    board.move(Board.Direction.DOWN);
+                
+                if (time >= 0.7) {
+                    board.updateBoard(root);
+                    board.move(0,1);
                     time = 0;
                 }
             }
