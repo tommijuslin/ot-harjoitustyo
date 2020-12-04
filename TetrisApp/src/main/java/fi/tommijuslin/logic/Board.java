@@ -6,7 +6,10 @@ import fi.tommijuslin.blocks.Block;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javafx.scene.Group;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 public class Board {
 
@@ -15,14 +18,22 @@ public class Board {
     public static final int BLOCK_SIZE = 40;
     public static int[][] grid = new int[BOARD_HEIGHT][BOARD_WIDTH];
     private final List<Tetromino> tetrominos = new ArrayList<>();
+    private final List<Integer> rowsToDelete = new ArrayList<>();
     public Tetromino currentTetromino;
-    private boolean isValid;
     public int patternIndex = 0;
     private int[][] pattern;
     private Shape shape;
+    private boolean isValid;
+    private IntegerProperty score = new SimpleIntegerProperty();
     
-    public enum Direction {
-        UP, RIGHT, DOWN, LEFT
+    public void initGame(Pane p) {
+        initBoard();
+        tetrominos.clear();
+        rowsToDelete.clear();
+        p.getChildren().removeIf(n -> n instanceof Rectangle);
+        this.score.set(0);
+        
+        spawn(Shape.getRandomShape());
     }
         
     public void initBoard() {
@@ -33,9 +44,9 @@ public class Board {
         }
     }
     
-    public void updateBoard(Group g) {
-        g.getChildren().clear();     
-        tetrominos.forEach(t -> t.draw(g));
+    public void updateBoard(Pane p) {
+        p.getChildren().removeIf(n -> n instanceof Rectangle);
+        tetrominos.forEach(t -> t.draw(p));
 //        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
     
@@ -43,15 +54,13 @@ public class Board {
         patternIndex = 0;
         shape = s;
         pattern = shape.array[0];
-        Block[] tetrominoBlocks = new Block[4];
-        int blockIndex = 0;
+        List<Block> tetrominoBlocks = new ArrayList<>();
         
         for (int row = 0; row < pattern.length; row++) {
             for (int col = 0; col < pattern[row].length; col++) {
                 if (pattern[row][col] == 1) {
                     Block block = new Block(col, row);
-                    tetrominoBlocks[blockIndex] = block;
-                    blockIndex++;
+                    tetrominoBlocks.add(block);
                 }
             }
         }
@@ -73,7 +82,7 @@ public class Board {
     
     public void move(int x, int y) {
         for (Block b : currentTetromino.blocks) {
-            isValid = checkCollisions(x, y, b);
+            isValid = movementCheck(x, y, b);
             if (!isValid) {
                 break;
             }
@@ -93,13 +102,21 @@ public class Board {
         if (y == 1 && !isValid) {
             for (Block b : currentTetromino.blocks) {
                 addToGrid(b);
+                if (b.getY() == 0) {
+                    System.out.println("kuolit");
+                }
             }
+            checkRows();
+            
+            if (!rowsToDelete.isEmpty()) {
+                deleteRows();
+            }
+            
             spawn(Shape.getRandomShape());
         }
-        
     }
     
-    public boolean checkCollisions(int x, int y, Block block) {
+    public boolean movementCheck(int x, int y, Block block) {
         if (x == 1) {
             if (block.getX() == BOARD_WIDTH - 1) {
                 return false;
@@ -138,16 +155,20 @@ public class Board {
             return;
         }
         
-        patternIndex++;
-        if (patternIndex == 4) {
-            patternIndex = 0;
+        List<Block> rotatedBlocks = rotationCheck();
+        
+        if (isValid) {
+            currentTetromino.blocks = rotatedBlocks;
+        } else {
+            patternIndex--;
         }
-        
+    }
+    
+    private List<Block> rotationCheck() {
+        List<Block> rotatedBlocks = new ArrayList<>();
+        nextPattern();
         int[][] potentialRotation = shape.array[patternIndex];
-        Block[] replacementBlocks = new Block[4];
-        int blockIndex = 0;
         isValid = true;
-        
         for (int row = 0; row < potentialRotation.length; row++) {
             for (int col = 0; col < potentialRotation[row].length; col++) {
                 if (potentialRotation[row][col] == 1) {
@@ -159,17 +180,78 @@ public class Board {
                         break;
                     } else {
                         Block block = new Block(currentTetromino.getX() + col, currentTetromino.getY() + row);
-                        replacementBlocks[blockIndex] = block;
-                        blockIndex++;
+                        rotatedBlocks.add(block);
                     }
                 }
             }
         }
-        
-        if (isValid) {
-            currentTetromino.blocks = replacementBlocks;
-        } else {
-            patternIndex--;
+        return rotatedBlocks;
+    }
+    
+    private void nextPattern() {
+        patternIndex++;
+        if (patternIndex == 4) {
+            patternIndex = 0;
         }
+    }
+    
+    private void checkRows() {
+        boolean lines = true;
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                if (grid[row][col] != 1) {
+                    lines = false;
+                    continue;
+                }
+                
+                if (lines && col == grid[row].length - 1) {
+                    rowsToDelete.add(row);
+                }
+            }
+            lines = true;
+        }
+    }
+    
+    private void deleteRows() {
+        for (int row = 0; row < rowsToDelete.size(); row++) {
+            for (Tetromino t : tetrominos) {
+                List<Block> temp = t.blocks;
+                List<Block> blocksToRemove = new ArrayList<>();
+                for (Block b : temp) {
+                    if (b.getY() == rowsToDelete.get(row)) {
+                        removeFromGrid(b);
+                        blocksToRemove.add(b);
+                    } else if (b.getY() < rowsToDelete.get(row)) {
+                        Block tempBlock = b;
+                        removeFromGrid(b);
+                        tempBlock.setY(tempBlock.getY() + 1);
+                        addToGrid(tempBlock);
+                    }
+                }
+                t.blocks.removeAll(blocksToRemove);
+            }
+        }
+        incrementScore();
+        rowsToDelete.clear();
+    }
+    
+    private void incrementScore() {
+        switch (rowsToDelete.size()) {
+            case 4:
+                this.score.set(score.get() + 1200);
+                break;
+            case 3:
+                this.score.set(score.get() + 300);
+                break;
+            case 2:
+                this.score.set(score.get() + 100);
+                break;
+            case 1:
+                this.score.set(score.get() + 40); 
+        }
+    }
+    
+    public IntegerProperty scoreProperty() {
+        return score;
     }
 }

@@ -1,16 +1,20 @@
 package fi.tommijuslin.blocks;
 
 import fi.tommijuslin.logic.Board;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Tetromino {
     
-    public Block[] blocks = new Block[4];
+//    public Block[] blocks = new Block[4];
+    public List<Block> blocks = new ArrayList<>();
 //    private final Image color;
     Random rand = new Random();
     int x, y;
@@ -32,24 +36,24 @@ public class Tetromino {
         Color.CYAN, Color.DARKBLUE, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.PURPLE, Color.RED
     };
 
-    public Tetromino(Block[] blocks) {
+    public Tetromino(List<Block> blocks) {
         this.blocks = blocks;
         this.color = colors[rand.nextInt(7)];
         this.x = 0;
         this.y = 0;
     }
     
-    public void draw(Group g) {
-        for (int i = 0; i < blocks.length; i++) {
+    public void draw(Pane p) {
+        for (int i = 0; i < blocks.size(); i++) {
             Rectangle r = new Rectangle();
             r.setHeight(Board.BLOCK_SIZE);
             r.setWidth(Board.BLOCK_SIZE);
-            r.setTranslateX(blocks[i].getX() * Board.BLOCK_SIZE);
-            r.setTranslateY(blocks[i].getY() * Board.BLOCK_SIZE);
+            r.setTranslateX(blocks.get(i).getX() * Board.BLOCK_SIZE);
+            r.setTranslateY(blocks.get(i).getY() * Board.BLOCK_SIZE);
 //            r.setFill(new ImagePattern(color));
 //            r.setStyle("-fx-stroke: black; -fx-stroke-width: 3");
             r.setFill(color);
-            g.getChildren().add(r);
+            p.getChildren().add(r);
         }
     }
     
