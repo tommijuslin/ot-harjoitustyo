@@ -21,6 +21,7 @@ public class Board {
     private final List<Integer> rowsToDelete = new ArrayList<>();
     public Tetromino currentTetromino;
     public int patternIndex = 0;
+    public boolean gameOver = false;
     private int[][] pattern;
     private Shape shape;
     private boolean isValid;
@@ -37,6 +38,7 @@ public class Board {
         rowsToDelete.clear();
         p.getChildren().removeIf(n -> n instanceof Rectangle);
         this.score.set(0);
+        gameOver = false;
         
         spawn(Shape.getRandomShape());
         updateBoard();
@@ -53,7 +55,7 @@ public class Board {
     public void updateBoard() {
         pane.getChildren().removeIf(n -> n instanceof Rectangle);
         tetrominos.forEach(t -> t.draw(pane));
-        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
+//        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
     
     public void spawn(Shape s) {
@@ -109,17 +111,20 @@ public class Board {
             for (Block b : currentTetromino.blocks) {
                 addToGrid(b);
                 if (b.getY() == 0) {
-                    System.out.println("kuolit");
+                    gameOver = true;
                 }
             }
-            checkRows();
             
-            if (!rowsToDelete.isEmpty()) {
-                deleteRows();
+            if (!gameOver) {
+                checkRows();
+
+                if (!rowsToDelete.isEmpty()) {
+                    deleteRows();
+                }
+
+                spawn(Shape.getRandomShape());
             }
-            
-            spawn(Shape.getRandomShape());
-        }
+        }  
     }
     
     public boolean movementCheck(int x, int y, Block block) {

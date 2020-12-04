@@ -1,5 +1,7 @@
 import fi.tommijuslin.blocks.Shape;
 import fi.tommijuslin.logic.Board;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import javafx.scene.layout.Pane;
 import org.junit.Before;
 import org.junit.Test;

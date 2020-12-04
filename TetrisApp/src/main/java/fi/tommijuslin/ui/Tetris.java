@@ -7,6 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import fi.tommijuslin.logic.Board;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -22,13 +27,25 @@ public class Tetris extends Application {
     private final Board board = new Board(root);
     private final int width = Board.BOARD_WIDTH * Board.BLOCK_SIZE;
     private final int height = Board.BOARD_HEIGHT * Board.BLOCK_SIZE;
+    private Label lblScore = new Label();
     
     @Override
     public void start(Stage stage) {
+        try {
+            File myObj = new File("score.txt");
+            if (myObj.createNewFile()) {
+              System.out.println("File created: " + myObj.getName());
+            } else {
+              System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+          System.out.println("An error occurred.");
+          e.printStackTrace();
+        }
+        
         GridPane gridPane = new GridPane();
         
         gridPane.add(new Label("Score: "), 0, 0);
-        Label lblScore = new Label();
         gridPane.add(lblScore, 1, 0);
         lblScore.textProperty().bind(board.scoreProperty().asString());
         
@@ -54,7 +71,13 @@ public class Tetris extends Application {
             public void handle(long now) {
                 time += 0.017;
 
-                gameScene.setOnKeyPressed(e -> {
+                if (board.gameOver) {
+                    stop();
+                    saveScore();
+                }
+                
+                if (!board.gameOver) {
+                    gameScene.setOnKeyPressed(e -> {
                         if (e.getCode() == KeyCode.RIGHT) {
                             board.move(1, 0);
                         }
@@ -73,13 +96,18 @@ public class Tetris extends Application {
                         
                         if (e.getCode() == KeyCode.ESCAPE) {
                             stage.setScene(menuScene);
-                            btnResume.setVisible(true);
+                            if (board.gameOver) {
+                                btnResume.setVisible(false);
+                            } else {
+                                btnResume.setVisible(true);
+                            }
                             stop();
                         }
 
                         board.updateBoard();
                     });
-
+                }
+                
                 if (time >= 0.7) {
                     board.updateBoard();
                     board.move(0,1);
@@ -102,6 +130,19 @@ public class Tetris extends Application {
         btnExit.setOnMouseClicked(e -> {
             Platform.exit();
         });
+    }
+    
+    public void saveScore() {
+        try {
+            String filename= "score.txt";
+            FileWriter fw = new FileWriter(filename, true);
+            if (!lblScore.getText().equals("0")) {
+                fw.write(lblScore.getText() + System.lineSeparator());
+            }
+            fw.close();
+        } catch(IOException ioe) {
+            System.err.println("IOException: " + ioe.getMessage());
+        }
     }
 
     public static void main(String[] args) {
