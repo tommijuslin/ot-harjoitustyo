@@ -25,6 +25,11 @@ public class Board {
     private Shape shape;
     private boolean isValid;
     private IntegerProperty score = new SimpleIntegerProperty();
+    private Pane pane;
+    
+    public Board(Pane pane) {
+        this.pane = pane;
+    }
     
     public void initGame(Pane p) {
         initBoard();
@@ -34,6 +39,7 @@ public class Board {
         this.score.set(0);
         
         spawn(Shape.getRandomShape());
+        updateBoard();
     }
         
     public void initBoard() {
@@ -44,10 +50,10 @@ public class Board {
         }
     }
     
-    public void updateBoard(Pane p) {
-        p.getChildren().removeIf(n -> n instanceof Rectangle);
-        tetrominos.forEach(t -> t.draw(p));
-//        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
+    public void updateBoard() {
+        pane.getChildren().removeIf(n -> n instanceof Rectangle);
+        tetrominos.forEach(t -> t.draw(pane));
+        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
     
     public void spawn(Shape s) {

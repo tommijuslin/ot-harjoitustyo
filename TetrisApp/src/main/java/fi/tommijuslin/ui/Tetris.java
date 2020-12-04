@@ -18,8 +18,8 @@ import javafx.scene.layout.VBox;
 public class Tetris extends Application {
 
     private double time;
-    private final Board board = new Board();
     private final Pane root = new Pane();
+    private final Board board = new Board(root);
     private final int width = Board.BOARD_WIDTH * Board.BLOCK_SIZE;
     private final int height = Board.BOARD_HEIGHT * Board.BLOCK_SIZE;
     
@@ -77,11 +77,11 @@ public class Tetris extends Application {
                             stop();
                         }
 
-                        board.updateBoard(root);
+                        board.updateBoard();
                     });
 
                 if (time >= 0.7) {
-                    board.updateBoard(root);
+                    board.updateBoard();
                     board.move(0,1);
                     time = 0;
                 }
