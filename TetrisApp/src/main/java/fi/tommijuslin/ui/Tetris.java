@@ -1,17 +1,14 @@
 package fi.tommijuslin.ui;
 
-import fi.tommijuslin.blocks.Shape;
+import fi.tommijuslin.logic.Board;
+import fi.tommijuslin.score.Score;
+import java.util.Collections;
+import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import fi.tommijuslin.logic.Board;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -19,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class Tetris extends Application {
 
@@ -27,21 +25,14 @@ public class Tetris extends Application {
     private final Board board = new Board(root);
     private final int width = Board.BOARD_WIDTH * Board.BLOCK_SIZE;
     private final int height = Board.BOARD_HEIGHT * Board.BLOCK_SIZE;
-    private Label lblScore = new Label();
+    private final Label lblScore = new Label();
+    private final VBox vboxScores = new VBox(10);
+    private final Score score = new Score(lblScore, vboxScores);
     
     @Override
     public void start(Stage stage) {
-        try {
-            File myObj = new File("score.txt");
-            if (myObj.createNewFile()) {
-              System.out.println("File created: " + myObj.getName());
-            } else {
-              System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-          System.out.println("An error occurred.");
-          e.printStackTrace();
-        }
+        score.createScoreFile();
+        score.updateAndListScores(vboxScores);
         
         GridPane gridPane = new GridPane();
         
@@ -52,14 +43,20 @@ public class Tetris extends Application {
         Button btnResume = new Button("Resume");
         Button btnStart = new Button("Start");
         Button btnExit = new Button("Exit");
-        
-        VBox vbox = new VBox(10, btnResume, btnStart, btnExit);
-        vbox.setAlignment(Pos.CENTER);
-        
+        Button btnScore = new Button("High Score");
+        Button btnBack = new Button("Back");
         btnResume.setVisible(false);
+        
+        VBox vbox = new VBox(10, btnResume, btnStart, btnScore, btnExit);
+        vbox.setAlignment(Pos.CENTER);
+
+        vboxScores.getChildren().add(btnBack);
+        btnBack.toFront();
+        vboxScores.setAlignment(Pos.CENTER);
         
         Scene gameScene = new Scene(root, width, height);
         Scene menuScene = new Scene(vbox, width, height);
+        Scene scoreScene = new Scene(vboxScores, width, height);
         
         root.getChildren().add(gridPane);
         
@@ -73,7 +70,9 @@ public class Tetris extends Application {
 
                 if (board.gameOver) {
                     stop();
-                    saveScore();
+                    score.saveScore();
+                    score.updateAndListScores(vboxScores);
+                    btnBack.toFront();
                 }
                 
                 if (!board.gameOver) {
@@ -127,22 +126,17 @@ public class Tetris extends Application {
             t.start();
         });
         
+        btnScore.setOnMouseClicked(e -> {
+            stage.setScene(scoreScene);
+        });
+        
+        btnBack.setOnMouseClicked(e -> {
+            stage.setScene(menuScene);
+        });
+        
         btnExit.setOnMouseClicked(e -> {
             Platform.exit();
         });
-    }
-    
-    public void saveScore() {
-        try {
-            String filename= "score.txt";
-            FileWriter fw = new FileWriter(filename, true);
-            if (!lblScore.getText().equals("0")) {
-                fw.write(lblScore.getText() + System.lineSeparator());
-            }
-            fw.close();
-        } catch(IOException ioe) {
-            System.err.println("IOException: " + ioe.getMessage());
-        }
     }
 
     public static void main(String[] args) {

@@ -122,7 +122,7 @@ public class Board {
                     deleteRows();
                 }
 
-                spawn(Shape.getRandomShape());
+                spawn(Shape.O);
             }
         }  
     }
