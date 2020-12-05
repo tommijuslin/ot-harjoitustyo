@@ -23,6 +23,10 @@ public class Score {
         this.lblScore = lblScore;
     }
     
+    /**
+     * Luo tekstitiedoston pistetilanteen seuraamista varten
+     */
+    
     public void createScoreFile() {
         try {
             File file = new File("score.txt");
@@ -34,6 +38,11 @@ public class Score {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Etsii pienimmän pistemäärän score.txt-tiedostosta
+     * @return pienin pistemäärä
+     */
     
     public int getLowestScore() {
         int lowestScore = Integer.MAX_VALUE;
@@ -54,6 +63,12 @@ public class Score {
         return lowestScore;
     }
     
+    /**
+     * Laskee syötettyjen pisteiden määrän score.txt-tiedostosta
+     * 
+     * @return syötettyjen pisteiden määrä
+     */
+    
     public int getNumberOfLines() {
         int lines = 0;
         String s = null;
@@ -70,6 +85,12 @@ public class Score {
         
         return lines;
     }
+    
+    /**
+     * Tallentaa saavutetun pistemäärän tiedostoon. Pisteet tallennetaan vain
+     * jos pisteitä on syötetty yhteensä alle 10 kappaletta tai saavutettu
+     * pistemäärä on suurempi kuin listalta löytyvä pienin pistemäärä.
+     */
     
     public void saveScore() {
         int lowestScore = getLowestScore();
@@ -106,6 +127,12 @@ public class Score {
         }
     }
     
+    /**
+     * Palauttaa kaikki scores.txt-tiedosta löytyvät pisteet taulukossa
+     * 
+     * @return pisteet
+     */
+    
     public List<Integer> getScores() {
         List<Integer> scores = new ArrayList<>();
         try (Scanner scanner = new Scanner(Paths.get("score.txt"))) {
@@ -119,6 +146,12 @@ public class Score {
         
         return scores;
     }
+    
+    /**
+     * Päivittää ja järjestää pisteet
+     * 
+     * @param vboxScores alusta jolle pisteet tallennetaan
+     */
     
     public void updateAndListScores(VBox vboxScores) {
         vboxScores.getChildren().removeIf(n -> n instanceof Text);

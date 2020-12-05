@@ -32,6 +32,10 @@ public class Board {
         this.pane = pane;
     }
     
+    /**
+     * Pelin alustaminen. Tyhjentää peliruudun ja nollaa pisteet
+     */
+    
     public void initGame() {
         initBoard();
         tetrominos.clear();
@@ -43,6 +47,10 @@ public class Board {
         spawn(Shape.getRandomShape());
         updateBoard();
     }
+    
+    /**
+     * Tetrominojen kulkua seuraavan taulukon alustus
+     */
         
     public void initBoard() {
         for (int i = 0; i < grid.length; i++) {
@@ -52,11 +60,22 @@ public class Board {
         }
     }
     
+    /**
+     * Päivittää peliruudun poistamalla kaikki tetrominot ja piirtämällä
+     * ne uudestaan uusien koordinaattien mukaisesti
+     */
+    
     public void updateBoard() {
         pane.getChildren().removeIf(n -> n instanceof Rectangle);
         tetrominos.forEach(t -> t.draw(pane));
 //        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
+    
+    /**
+     * Spawnaa tetrominon peliruudulle
+     * 
+     * @param shape Tetrominon muoto
+     */
     
     public void spawn(Shape shape) {
         this.shape = shape;
@@ -68,6 +87,12 @@ public class Board {
         
         move(3, 0);
     }
+    
+    /**
+     * Rakentaa tetrominon yksittäisistä palikoista
+     * 
+     * @return rakennettu tetromino
+     */
     
     private List<Block> buildTetromino() {
         patternIndex = 0;
@@ -93,6 +118,13 @@ public class Board {
     private void removeFromGrid(Block block) {
         grid[block.getY()][block.getX()]--;
     }
+    
+    /**
+     * Liikuttaa tetrominoa annettujen parametrien mukaisesti
+     * 
+     * @param x liikkeen määrä vaakasuunnassa
+     * @param y liikkeen määrä pystysuunnassa
+     */
     
     public void move(int x, int y) {
         boolean isValid = checkMoveValidity(x, y);
@@ -174,6 +206,10 @@ public class Board {
         
         return false;
     }
+    
+    /**
+     * Pyörittää tetrominoa myötäpäivään 90 astetta
+     */
     
     public void rotate() {
         if (shape == Shape.O) {

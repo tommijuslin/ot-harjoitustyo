@@ -42,7 +42,13 @@ public class Tetromino {
         this.y = 0;
     }
     
-    public void draw(Pane p) {
+    /**
+     * Metodi piirtää tetrominon neliö kerrallaan peliruudulle.
+     * 
+     * @param   pane    Alusta, jolle tetromino piirretään
+     */
+    
+    public void draw(Pane pane) {
         for (int i = 0; i < blocks.size(); i++) {
             Rectangle r = new Rectangle();
             r.setHeight(Board.BLOCK_SIZE);
@@ -52,7 +58,7 @@ public class Tetromino {
 //            r.setFill(new ImagePattern(color));
 //            r.setStyle("-fx-stroke: black; -fx-stroke-width: 3");
             r.setFill(color);
-            p.getChildren().add(r);
+            pane.getChildren().add(r);
         }
     }
     
