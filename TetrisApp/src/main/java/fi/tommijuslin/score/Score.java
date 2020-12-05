@@ -27,11 +27,11 @@ public class Score {
         try {
             File file = new File("score.txt");
             if (file.createNewFile()) {
-              System.out.println("File created: " + file.getName());
+                System.out.println("File created: " + file.getName());
             }
         } catch (IOException e) {
-          System.out.println("An error occurred.");
-          e.printStackTrace();
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
     
@@ -46,8 +46,9 @@ public class Score {
                 }
             }
             reader.close();
-        } catch(IOException ioe) {
-            System.err.println("IOException: " + ioe.getMessage());
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
         
         return lowestScore;
@@ -62,8 +63,9 @@ public class Score {
                 lines++;
             }
             reader.close();
-        } catch(IOException ioe) {
-            System.err.println("IOException: " + ioe.getMessage());
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
         
         return lines;
@@ -83,21 +85,23 @@ public class Score {
                     }
                 }
                 Files.write(Paths.get("score.txt"), fileContent);
-            } catch (IOException ioe) {
-                System.err.println("IOException: " + ioe.getMessage());
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
             }
         }
         
         if (lines < 10) {
             try {
-                String filename= "score.txt";
+                String filename = "score.txt";
                 FileWriter fw = new FileWriter(filename, true);
                 if (!lblScore.getText().equals("0")) {
                     fw.write(lblScore.getText() + System.lineSeparator());
                 }
                 fw.close();
-            } catch(IOException ioe) {
-                System.err.println("IOException: " + ioe.getMessage());
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
             }
         }
     }
@@ -109,7 +113,8 @@ public class Score {
                 scores.add(Integer.parseInt(scanner.nextLine()));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
         
         return scores;
