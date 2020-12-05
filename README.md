@@ -18,7 +18,7 @@ Tämä versio Tetriksestä on Helsingin yliopiston Ohjelmistotekniikan menetelm�
 
 [Viikko 6](https://github.com/tommijuslin/ot-harjoitustyo/releases/tag/viikko6)
 
-## Komentorivitkomennot
+## Komentorivikomennot
 
 ### Testaus
 
