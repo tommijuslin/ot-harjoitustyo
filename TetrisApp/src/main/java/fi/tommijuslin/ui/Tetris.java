@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class Tetris extends Application {
 
@@ -79,6 +80,7 @@ public class Tetris extends Application {
 
                 if (board.gameOver) {
                     stop();
+                    stage.setScene(menuScene);
                     score.saveScore();
                     score.updateAndListScores(vboxScores);
                     btnBack.toFront();

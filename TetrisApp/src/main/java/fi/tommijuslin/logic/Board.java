@@ -162,6 +162,7 @@ public class Board {
         
         if (!gameOver) {
             handleFullRows();
+            spawn(Shape.getRandomShape());
         }
     }
     
@@ -170,7 +171,6 @@ public class Board {
         if (!rowsToDelete.isEmpty()) {
             deleteRows();
         }
-        spawn(Shape.getRandomShape());
     }
     
     private boolean moveCollides(int x, int y, Block block) {
