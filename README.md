@@ -22,11 +22,11 @@ Tämä versio Tetriksestä on Helsingin yliopiston Ohjelmistotekniikan menetelm�
 
 ### Testaus
 
-Testit suoritetaan komennolla
+Ohjelman testaus onnistuu komennolla
 
 `mvn test`
 
-Testikattavuusraportti luodaan komennolla
+Testien kattavuuden saa selville generoimalla testikattavuusraportin komennolla
 
 `mvn jacoco:report`
 
