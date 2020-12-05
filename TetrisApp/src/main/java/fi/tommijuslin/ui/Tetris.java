@@ -89,17 +89,13 @@ public class Tetris extends Application {
                             board.move(0, 1);
                         }
 
-                        if (e.getCode() == KeyCode.SPACE) {
+                        if (e.getCode() == KeyCode.UP) {
                             board.rotate();
                         }
                         
                         if (e.getCode() == KeyCode.ESCAPE) {
                             stage.setScene(menuScene);
-                            if (board.gameOver) {
-                                btnResume.setVisible(false);
-                            } else {
-                                btnResume.setVisible(true);
-                            }
+                            btnResume.setVisible(!board.gameOver);
                             stop();
                         }
 
