@@ -9,6 +9,7 @@ import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Board {
@@ -24,19 +25,18 @@ public class Board {
     public boolean gameOver = false;
     private int[][] pattern;
     private Shape shape;
-    private boolean isValid;
-    private IntegerProperty score = new SimpleIntegerProperty();
-    private Pane pane;
+    private final IntegerProperty score = new SimpleIntegerProperty();
+    private final Pane pane;
     
     public Board(Pane pane) {
         this.pane = pane;
     }
     
-    public void initGame(Pane p) {
+    public void initGame() {
         initBoard();
         tetrominos.clear();
         rowsToDelete.clear();
-        p.getChildren().removeIf(n -> n instanceof Rectangle);
+        pane.getChildren().removeIf(n -> n instanceof Rectangle);
         this.score.set(0);
         gameOver = false;
         
@@ -58,9 +58,19 @@ public class Board {
 //        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
     
-    public void spawn(Shape s) {
+    public void spawn(Shape shape) {
+        this.shape = shape;
+        List<Block> tetrominoBlocks = buildTetromino();
+        
+        Tetromino tetromino = new Tetromino(tetrominoBlocks);
+        tetrominos.add(tetromino);
+        currentTetromino = tetromino;
+        
+        move(3, 0);
+    }
+    
+    private List<Block> buildTetromino() {
         patternIndex = 0;
-        shape = s;
         pattern = shape.array[0];
         List<Block> tetrominoBlocks = new ArrayList<>();
         
@@ -73,11 +83,7 @@ public class Board {
             }
         }
         
-        Tetromino tetromino = new Tetromino(tetrominoBlocks);
-        tetrominos.add(tetromino);
-        currentTetromino = tetromino;
-        
-        move(3, 0);
+        return tetrominoBlocks;
     }
     
     private void addToGrid(Block block) {
@@ -89,106 +95,111 @@ public class Board {
     }
     
     public void move(int x, int y) {
-        for (Block b : currentTetromino.blocks) {
-            isValid = movementCheck(x, y, b);
-            if (!isValid) {
-                break;
-            }
-        }
+        boolean isValid = checkMoveValidity(x, y);
         
         if (isValid) {
             for (Block b : currentTetromino.blocks) {
                 b.setX(b.getX() + x);
                 b.setY(b.getY() + y);
             }
-            
             currentTetromino.setX(currentTetromino.getX() + x);
             currentTetromino.setY(currentTetromino.getY() + y);
-            
         }
         
         if (y == 1 && !isValid) {
-            for (Block b : currentTetromino.blocks) {
-                addToGrid(b);
-                if (b.getY() == 0) {
-                    gameOver = true;
-                }
-            }
-            
-            if (!gameOver) {
-                checkRows();
-
-                if (!rowsToDelete.isEmpty()) {
-                    deleteRows();
-                }
-
-                spawn(Shape.getRandomShape());
-            }
-        }  
+            landTetromino();
+        }
     }
     
-    public boolean movementCheck(int x, int y, Block block) {
+    private boolean checkMoveValidity(int x, int y) {
+        for (Block b : currentTetromino.blocks) {
+            if (moveCollides(x, y, b)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void landTetromino() {
+        for (Block b : currentTetromino.blocks) {
+            addToGrid(b);
+            if (b.getY() == 0) {
+                gameOver = true;
+            }
+        }
+        
+        if (!gameOver) {
+            handleFullRows();
+        }
+    }
+    
+    private void handleFullRows() {
+        checkRows();
+        if (!rowsToDelete.isEmpty()) {
+            deleteRows();
+        }
+        spawn(Shape.getRandomShape());
+    }
+    
+    private boolean moveCollides(int x, int y, Block block) {
         if (x == 1) {
             if (block.getX() == BOARD_WIDTH - 1) {
-                return false;
+                return true;
             }
             
             if (grid[block.getY()][block.getX() + 1] > 0) {
-                return false;
+                return true;
             }
         }
         
         if (x == -1) {
             if (block.getX() == 0) {
-                return false;
+                return true;
             }
 
             if (grid[block.getY()][block.getX() - 1] > 0) {
-                return false;
+                return true;
             }
         }
 
         if (y == 1) {
             if (block.getY() == BOARD_HEIGHT - 1) {
-                return false;
+                return true;
             }
             
             if (grid[block.getY() + 1][block.getX()] > 0) {
-                return false;
+                return true;
             }
         }
         
-        return true;
+        return false;
     }
     
     public void rotate() {
         if (shape == Shape.O) {
             return;
         }
+
+        List<Block> newRotation = getNextRotation();
         
-        List<Block> rotatedBlocks = rotationCheck();
-        
-        if (isValid) {
-            currentTetromino.blocks = rotatedBlocks;
+        if (newRotation != null) {
+            currentTetromino.blocks = newRotation;
         } else {
             patternIndex--;
         }
     }
     
-    private List<Block> rotationCheck() {
+    private List<Block> getNextRotation() {
         List<Block> rotatedBlocks = new ArrayList<>();
         nextPattern();
         int[][] potentialRotation = shape.array[patternIndex];
-        isValid = true;
         for (int row = 0; row < potentialRotation.length; row++) {
             for (int col = 0; col < potentialRotation[row].length; col++) {
                 if (potentialRotation[row][col] == 1) {
                     if (currentTetromino.getX() + col < 0 || currentTetromino.getX() + col > BOARD_WIDTH - 1) {
-                        isValid = false;
-                        break;
+                        return null;
                     } else if (grid[currentTetromino.getY() + row][currentTetromino.getX() + col] == 1) {
-                        isValid = false;
-                        break;
+                        return null;
                     } else {
                         Block block = new Block(currentTetromino.getX() + col, currentTetromino.getY() + row);
                         rotatedBlocks.add(block);

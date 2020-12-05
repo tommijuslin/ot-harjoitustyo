@@ -2,8 +2,6 @@ package fi.tommijuslin.ui;
 
 import fi.tommijuslin.logic.Board;
 import fi.tommijuslin.score.Score;
-import java.util.Collections;
-import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -16,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 public class Tetris extends Application {
 
@@ -34,10 +32,17 @@ public class Tetris extends Application {
         score.createScoreFile();
         score.updateAndListScores(vboxScores);
         
+//        root.setStyle("-fx-background-color: rgb(50, 50, 50)");
+        
         GridPane gridPane = new GridPane();
         
-        gridPane.add(new Label("Score: "), 0, 0);
+        Label lblScoreText = new Label("Score: ");
+        lblScoreText.setFont(new Font("Arial", 24));
+        
+        gridPane.add(lblScoreText, 0, 0);
         gridPane.add(lblScore, 1, 0);
+        
+        lblScore.setFont(new Font("Arial", 24));
         lblScore.textProperty().bind(board.scoreProperty().asString());
         
         Button btnResume = new Button("Resume");
@@ -57,6 +62,10 @@ public class Tetris extends Application {
         Scene gameScene = new Scene(root, width, height);
         Scene menuScene = new Scene(vbox, width, height);
         Scene scoreScene = new Scene(vboxScores, width, height);
+        
+        gameScene.getStylesheets().add(getClass().getClassLoader().getResource("style.css").toExternalForm());
+        menuScene.getStylesheets().add(getClass().getClassLoader().getResource("style.css").toExternalForm());
+        scoreScene.getStylesheets().add(getClass().getClassLoader().getResource("style.css").toExternalForm());
         
         root.getChildren().add(gridPane);
         
@@ -117,7 +126,7 @@ public class Tetris extends Application {
         });
         
         btnStart.setOnMouseClicked(e -> {
-            board.initGame(root);
+            board.initGame();
             stage.setScene(gameScene);
             t.start();
         });

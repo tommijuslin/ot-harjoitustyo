@@ -13,11 +13,10 @@ import javafx.scene.shape.Rectangle;
 
 public class Tetromino {
     
-//    public Block[] blocks = new Block[4];
     public List<Block> blocks = new ArrayList<>();
-//    private final Image color;
     Random rand = new Random();
     int x, y;
+//    private final Image color;
     
 //    Image blueBlock = new Image("file:images/Blue_Block.png");
 //    Image cyanBlock = new Image("file:images/Cyan_Block.png");
@@ -33,7 +32,7 @@ public class Tetromino {
     
     private final Color color;
     private final Color[] colors = {
-        Color.CYAN, Color.DARKBLUE, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.PURPLE, Color.RED
+        Color.CYAN, Color.DODGERBLUE, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUEVIOLET, Color.RED
     };
 
     public Tetromino(List<Block> blocks) {

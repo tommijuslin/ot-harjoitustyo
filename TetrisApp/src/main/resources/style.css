@@ -1,0 +1,13 @@
+Button {
+    -fx-background-color:#3c7fb1;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-padding: 3 30 3 30;
+}
+
+Rectangle {
+    -fx-stroke: black;
+    -fx-stroke-width: 3;
+    -fx-arc-height: 5;
+    -fx-arc-width: 5;
+}
