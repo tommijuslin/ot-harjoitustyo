@@ -9,6 +9,8 @@ Tetris-peli
 
 [Arkkitehtuuri](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
+[Käyttöohje](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
+
 
 ### Releaset
 
