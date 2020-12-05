@@ -46,9 +46,9 @@ JavaDoc generoidaan komennolla
 
 JavaDoc löytyy tiedostosta target/site/apidocs/index.html
 
-### CheckStyle
+### Checkstyle
 
-Checkstyle-tarkistukset generoidaan komennolla
+Ohjelma käyttää checkstyle-työkalua koodin laadun tarkasteluun. Määrittelyt löytyvät konfiguraatiotiedostosta [checkstyle.xml](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/TetrisApp/checkstyle.xml) ja tarkistukset ajetaan komennolla
 
 `mvn jxr:jxr checkstyle:checkstyle`
 
