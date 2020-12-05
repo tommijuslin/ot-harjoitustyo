@@ -7,4 +7,5 @@
 | 26.11 | 6    | tetrominojen pyörittäminen toteutettu |
 | 27.11 | 3    | jouduin toteuttamaan tetrominojen piirtämisen eri tavalla edellisenä päivänä ja tämä rikkoi testit ja vähän kaikkea muutakin. Korjasin testit ja tein muuta pientä viilausta. Yritin myös saada palikat piirrettyä omilla spriteillä, mutta tämä jostain syystä rikkoo testit vaikka sovellus muuten toimiikin. |
 | 1.12  | 1    | viikon kolme laskarit jäi tekemättä, niin jouduin opettelemaan sekvenssikaavioiden luomisen nyt. Ensimmäinen sekvenssikaavio luotu. |
-| yht   | 30   |
+| 5.12  | 9    | lisäsin menun ja pistesysteemin. Pisteet myös tallennetaan tiedostoon. Tein myös kaikenlaista muuta pikku säätöä. |
+| yht   | 39   |
