@@ -1,5 +1,5 @@
 # TetrisApp
-Tämä versio Tetriksestä on Helsingin yliopiston Ohjelmistotekniikan menetelmät -kurssia varten luotu harjoitustyö.
+Tämä versio Tetriksestä on Helsingin yliopiston Ohjelmistotekniikka-kurssia varten luotu harjoitustyö.
 
 ## Dokumentaatio
 
