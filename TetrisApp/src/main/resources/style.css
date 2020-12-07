@@ -11,3 +11,8 @@ Rectangle {
     -fx-arc-height: 5;
     -fx-arc-width: 5;
 }
+
+Text {
+    -fx-font-size: 20px;
+    -text-align: left;
+}

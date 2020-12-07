@@ -1,4 +1,4 @@
-package fi.tommijuslin.score;
+package fi.tommijuslin.logic;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Scanner;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -129,12 +131,12 @@ public class Score {
         int lowestScore = getLowestScore();
         int lines = getNumberOfLines();
         
-        if (Integer.parseInt(lblScore) > lowestScore && lines == 10) {
+        if (score.get() > lowestScore && lines == 10) {
             try {
                 List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("score.txt")));
                 for (int i = 0; i < fileContent.size(); i++) {
                     if (fileContent.get(i).equals(Integer.toString(lowestScore))) {
-                        fileContent.set(i, lblScore);
+                        fileContent.set(i, Integer.toString(score.get()));
                         break;
                     }
                 }
@@ -149,8 +151,8 @@ public class Score {
             try {
                 String filename = "score.txt";
                 FileWriter fw = new FileWriter(filename, true);
-                if (!lblScore.equals("0")) {
-                    fw.write(lblScore + System.lineSeparator());
+                if (!Integer.toString(score.get()).equals("0")) {
+                    fw.write(Integer.toString(score.get()) + System.lineSeparator());
                 }
                 fw.close();
             } catch (IOException e) {
@@ -191,9 +193,11 @@ public class Score {
         List<Integer> scores = getScores();
         Collections.sort(scores);
         Collections.reverse(scores);
+        int i = 1;
         for (Integer score : scores) {
-            Text text = new Text(Integer.toString(score));
+            Text text = new Text(Integer.toString(i) + ".\t\t\t" + Integer.toString(score));
             vboxScores.getChildren().add(text);
+            i++;
         }
     }
     

@@ -2,7 +2,7 @@ package fi.tommijuslin.ui;
 
 import fi.tommijuslin.logic.Board;
 import fi.tommijuslin.logic.Grid;
-import fi.tommijuslin.score.Score;
+import fi.tommijuslin.logic.Score;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -52,7 +52,10 @@ public class Tetris extends Application {
         Button btnBack = new Button("Back");
         btnResume.setVisible(false);
         
-        VBox vbox = new VBox(10, btnResume, btnStart, btnScore, btnExit);
+        Label title = new Label("T E T R I S");
+        title.setStyle("-fx-font-size: 50px;");
+        
+        VBox vbox = new VBox(10, title, btnResume, btnStart, btnScore, btnExit);
         vbox.setAlignment(Pos.CENTER);
 
         vboxScores.getChildren().add(btnBack);

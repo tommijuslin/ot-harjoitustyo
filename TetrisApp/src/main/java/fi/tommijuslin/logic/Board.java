@@ -3,7 +3,6 @@ package fi.tommijuslin.logic;
 import fi.tommijuslin.blocks.Tetromino;
 import fi.tommijuslin.blocks.Shape;
 import fi.tommijuslin.blocks.Block;
-import fi.tommijuslin.score.Score;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.layout.Pane;
@@ -69,7 +68,11 @@ public class Board {
         tetrominos.add(tetromino);
         currentTetromino = tetromino;
         
-        move(3, 0);
+        if (shape == Shape.O) {
+            move(4, 0);
+        } else {
+            move(3, 0);
+        }  
     }
     
     /**

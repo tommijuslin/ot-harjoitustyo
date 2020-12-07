@@ -1,7 +1,7 @@
 import fi.tommijuslin.blocks.Shape;
 import fi.tommijuslin.logic.Board;
 import fi.tommijuslin.logic.Grid;
-import fi.tommijuslin.score.Score;
+import fi.tommijuslin.logic.Score;
 import javafx.application.Application;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
