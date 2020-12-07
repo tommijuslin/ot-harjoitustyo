@@ -124,14 +124,14 @@ public class Board {
     
     private boolean moveIsValid(int x, int y) {
         for (Block b : currentTetromino.blocks) {
-            if (moveCollides(x, y, b)) {
+            if (collides(x, y, b)) {
                 return false;
             }
         }
         return true;
     }
     
-    private boolean moveCollides(int x, int y, Block block) {
+    private boolean collides(int x, int y, Block block) {
         if (x == 1) {
             if (block.getX() == BOARD_WIDTH - 1) {
                 return true;
