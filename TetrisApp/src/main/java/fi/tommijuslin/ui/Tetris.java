@@ -1,6 +1,7 @@
 package fi.tommijuslin.ui;
 
 import fi.tommijuslin.logic.Board;
+import fi.tommijuslin.logic.Grid;
 import fi.tommijuslin.score.Score;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -15,25 +16,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class Tetris extends Application {
 
     private double time;
-    private final Pane root = new Pane();
-    private final Board board = new Board(root);
     private final int width = Board.BOARD_WIDTH * Board.BLOCK_SIZE;
     private final int height = Board.BOARD_HEIGHT * Board.BLOCK_SIZE;
     private final Label lblScore = new Label();
     private final VBox vboxScores = new VBox(10);
-    private final Score score = new Score(lblScore, vboxScores);
+    private final Score score = new Score(lblScore.getText());
+    private final Pane root = new Pane();
+    private final Grid grid = new Grid();
+    private final Board board = new Board(root, grid, score);
     
     @Override
     public void start(Stage stage) {
         score.createScoreFile();
         score.updateAndListScores(vboxScores);
-        
-//        root.setStyle("-fx-background-color: rgb(50, 50, 50)");
         
         GridPane gridPane = new GridPane();
         
@@ -44,7 +43,7 @@ public class Tetris extends Application {
         gridPane.add(lblScore, 1, 0);
         
         lblScore.setFont(new Font("Arial", 24));
-        lblScore.textProperty().bind(board.scoreProperty().asString());
+        lblScore.textProperty().bind(score.scoreProperty().asString());
         
         Button btnResume = new Button("Resume");
         Button btnStart = new Button("Start");

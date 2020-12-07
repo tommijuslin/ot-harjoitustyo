@@ -3,13 +3,10 @@ package fi.tommijuslin.logic;
 import fi.tommijuslin.blocks.Tetromino;
 import fi.tommijuslin.blocks.Shape;
 import fi.tommijuslin.blocks.Block;
+import fi.tommijuslin.score.Score;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Board {
@@ -17,47 +14,35 @@ public class Board {
     public static final int BOARD_WIDTH = 10;
     public static final int BOARD_HEIGHT = 20;
     public static final int BLOCK_SIZE = 40;
-    public static int[][] grid = new int[BOARD_HEIGHT][BOARD_WIDTH];
     private final List<Tetromino> tetrominos = new ArrayList<>();
-    private final List<Integer> rowsToDelete = new ArrayList<>();
     public Tetromino currentTetromino;
     public int patternIndex = 0;
     public boolean gameOver = false;
     private int[][] pattern;
     private Shape shape;
-    private final IntegerProperty score = new SimpleIntegerProperty();
     private final Pane pane;
+    private final Grid grid;
+    private final Score score;
     
-    public Board(Pane pane) {
+    public Board(Pane pane, Grid grid, Score score) {
         this.pane = pane;
+        this.grid = grid;
+        this.score = score;
     }
     
     /**
      * Pelin alustaminen. Tyhjentää peliruudun ja nollaa pisteet
      */
-    
+
     public void initGame() {
-        initBoard();
+        grid.initGrid();
+        grid.initRowsToClear();
         tetrominos.clear();
-        rowsToDelete.clear();
         pane.getChildren().removeIf(n -> n instanceof Rectangle);
-        this.score.set(0);
+        score.initScore();
         gameOver = false;
-        
         spawn(Shape.getRandomShape());
         updateBoard();
-    }
-    
-    /**
-     * Tetrominojen kulkua seuraavan taulukon alustus
-     */
-        
-    public void initBoard() {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                grid[i][j] = 0;
-            }
-        }
     }
     
     /**
@@ -68,11 +53,10 @@ public class Board {
     public void updateBoard() {
         pane.getChildren().removeIf(n -> n instanceof Rectangle);
         tetrominos.forEach(t -> t.draw(pane));
-//        System.out.println(Arrays.deepToString(grid).replace("], ", "]\n"));
     }
     
     /**
-     * Spawnaa tetrominon peliruudulle
+     * Spawnaa tetrominon pelialueelle
      * 
      * @param shape Tetrominon muoto
      */
@@ -111,14 +95,6 @@ public class Board {
         return tetrominoBlocks;
     }
     
-    private void addToGrid(Block block) {
-        grid[block.getY()][block.getX()]++;
-    }
-    
-    private void removeFromGrid(Block block) {
-        grid[block.getY()][block.getX()]--;
-    }
-    
     /**
      * Liikuttaa tetrominoa annettujen parametrien mukaisesti
      * 
@@ -127,7 +103,7 @@ public class Board {
      */
     
     public void move(int x, int y) {
-        boolean isValid = checkMoveValidity(x, y);
+        boolean isValid = moveIsValid(x, y);
         
         if (isValid) {
             for (Block b : currentTetromino.blocks) {
@@ -143,7 +119,7 @@ public class Board {
         }
     }
     
-    private boolean checkMoveValidity(int x, int y) {
+    private boolean moveIsValid(int x, int y) {
         for (Block b : currentTetromino.blocks) {
             if (moveCollides(x, y, b)) {
                 return false;
@@ -152,34 +128,13 @@ public class Board {
         return true;
     }
     
-    private void landTetromino() {
-        for (Block b : currentTetromino.blocks) {
-            addToGrid(b);
-            if (b.getY() == 0) {
-                gameOver = true;
-            }
-        }
-        
-        if (!gameOver) {
-            handleFullRows();
-            spawn(Shape.getRandomShape());
-        }
-    }
-    
-    private void handleFullRows() {
-        checkRows();
-        if (!rowsToDelete.isEmpty()) {
-            deleteRows();
-        }
-    }
-    
     private boolean moveCollides(int x, int y, Block block) {
         if (x == 1) {
             if (block.getX() == BOARD_WIDTH - 1) {
                 return true;
             }
             
-            if (grid[block.getY()][block.getX() + 1] > 0) {
+            if (grid.getGrid()[block.getY()][block.getX() + 1] > 0) {
                 return true;
             }
         }
@@ -189,7 +144,7 @@ public class Board {
                 return true;
             }
 
-            if (grid[block.getY()][block.getX() - 1] > 0) {
+            if (grid.getGrid()[block.getY()][block.getX() - 1] > 0) {
                 return true;
             }
         }
@@ -199,13 +154,30 @@ public class Board {
                 return true;
             }
             
-            if (grid[block.getY() + 1][block.getX()] > 0) {
+            if (grid.getGrid()[block.getY() + 1][block.getX()] > 0) {
                 return true;
             }
         }
         
         return false;
     }
+    
+    private void landTetromino() {
+        for (Block b : currentTetromino.blocks) {
+            grid.addToGrid(b);
+            if (b.getY() == 0) {
+                gameOver = true;
+            }
+        }
+        
+        if (!gameOver) {
+            grid.handleFullRows(tetrominos);
+            score.incrementScore(grid.rowsToDelete.size());
+            grid.initRowsToClear();
+            spawn(Shape.getRandomShape());
+        }
+    }
+   
     
     /**
      * Pyörittää tetrominoa myötäpäivään 90 astetta
@@ -234,7 +206,7 @@ public class Board {
                 if (potentialRotation[row][col] == 1) {
                     if (currentTetromino.getX() + col < 0 || currentTetromino.getX() + col > BOARD_WIDTH - 1) {
                         return null;
-                    } else if (grid[currentTetromino.getY() + row][currentTetromino.getX() + col] == 1) {
+                    } else if (grid.getGrid()[currentTetromino.getY() + row][currentTetromino.getX() + col] == 1) {
                         return null;
                     } else {
                         Block block = new Block(currentTetromino.getX() + col, currentTetromino.getY() + row);
@@ -251,65 +223,5 @@ public class Board {
         if (patternIndex == 4) {
             patternIndex = 0;
         }
-    }
-    
-    private void checkRows() {
-        boolean lines = true;
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[row].length; col++) {
-                if (grid[row][col] != 1) {
-                    lines = false;
-                    continue;
-                }
-                
-                if (lines && col == grid[row].length - 1) {
-                    rowsToDelete.add(row);
-                }
-            }
-            lines = true;
-        }
-    }
-    
-    private void deleteRows() {
-        for (int row = 0; row < rowsToDelete.size(); row++) {
-            for (Tetromino t : tetrominos) {
-                List<Block> temp = t.blocks;
-                List<Block> blocksToRemove = new ArrayList<>();
-                for (Block b : temp) {
-                    if (b.getY() == rowsToDelete.get(row)) {
-                        removeFromGrid(b);
-                        blocksToRemove.add(b);
-                    } else if (b.getY() < rowsToDelete.get(row)) {
-                        Block tempBlock = b;
-                        removeFromGrid(b);
-                        tempBlock.setY(tempBlock.getY() + 1);
-                        addToGrid(tempBlock);
-                    }
-                }
-                t.blocks.removeAll(blocksToRemove);
-            }
-        }
-        incrementScore();
-        rowsToDelete.clear();
-    }
-    
-    private void incrementScore() {
-        switch (rowsToDelete.size()) {
-            case 4:
-                this.score.set(score.get() + 1200);
-                break;
-            case 3:
-                this.score.set(score.get() + 300);
-                break;
-            case 2:
-                this.score.set(score.get() + 100);
-                break;
-            case 1:
-                this.score.set(score.get() + 40); 
-        }
-    }
-    
-    public IntegerProperty scoreProperty() {
-        return score;
     }
 }

@@ -1,7 +1,9 @@
 import fi.tommijuslin.blocks.Shape;
 import fi.tommijuslin.logic.Board;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import fi.tommijuslin.logic.Grid;
+import fi.tommijuslin.score.Score;
+import javafx.application.Application;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +13,13 @@ public class BoardTest {
 
     Board board;
     Pane pane;
+    Grid grid = new Grid();
+    Score score = new Score("0");
 
     @Before
     public void setUp() {
-        board = new Board(pane);
-        board.initBoard();
+        board = new Board(pane, grid, score);
+        grid.initGrid();
     }
 
     @Test
@@ -68,10 +72,10 @@ public class BoardTest {
         board.spawn(Shape.I);
         board.move(0, 18);
         board.move(0, 1);
-        assertEquals(Board.grid[19][3], 1);
-        assertEquals(Board.grid[19][4], 1);
-        assertEquals(Board.grid[19][5], 1);
-        assertEquals(Board.grid[19][6], 1);
+        assertEquals(grid.getGrid()[19][3], 1);
+        assertEquals(grid.getGrid()[19][4], 1);
+        assertEquals(grid.getGrid()[19][5], 1);
+        assertEquals(grid.getGrid()[19][6], 1);
     }
     
     @Test
@@ -82,10 +86,10 @@ public class BoardTest {
         board.spawn(Shape.I);
         board.move(0, 17);
         board.move(0, 1);
-        assertEquals(Board.grid[18][3], 1);
-        assertEquals(Board.grid[18][4], 1);
-        assertEquals(Board.grid[18][5], 1);
-        assertEquals(Board.grid[18][6], 1);
+        assertEquals(grid.getGrid()[18][3], 1);
+        assertEquals(grid.getGrid()[18][4], 1);
+        assertEquals(grid.getGrid()[18][5], 1);
+        assertEquals(grid.getGrid()[18][6], 1);
     }
     
     @Test
@@ -177,15 +181,123 @@ public class BoardTest {
         board.spawn(Shape.O);
         board.move(5, 18);
         board.move(0, 1);
-        assertEquals(Board.grid[19][0], 0);
-        assertEquals(Board.grid[19][1], 0);
-        assertEquals(Board.grid[19][2], 0);
-        assertEquals(Board.grid[19][3], 0);
-        assertEquals(Board.grid[19][4], 0);
-        assertEquals(Board.grid[19][5], 0);
-        assertEquals(Board.grid[19][6], 0);
-        assertEquals(Board.grid[19][7], 0);
-        assertEquals(Board.grid[19][8], 1);
-        assertEquals(Board.grid[19][9], 1);
+        assertEquals(grid.getGrid()[19][0], 0);
+        assertEquals(grid.getGrid()[19][1], 0);
+        assertEquals(grid.getGrid()[19][2], 0);
+        assertEquals(grid.getGrid()[19][3], 0);
+        assertEquals(grid.getGrid()[19][4], 0);
+        assertEquals(grid.getGrid()[19][5], 0);
+        assertEquals(grid.getGrid()[19][6], 0);
+        assertEquals(grid.getGrid()[19][7], 0);
+        assertEquals(grid.getGrid()[19][8], 1);
+        assertEquals(grid.getGrid()[19][9], 1);
+    }
+    
+    @Test
+    public void scoreIsIncrementedCorrectlyWhenClearingOneRow() {
+        board.spawn(Shape.I);
+        board.move(-3, 18);
+        board.move(0, 1);
+        board.spawn(Shape.I);
+        board.move(1, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(5, 18);
+        board.move(0, 1);
+        assertEquals(score.getScore(), 40);
+    }
+    
+    // tähän on varmaan joku parempikin tapa
+    
+    @Test
+    public void scoreIsIncrementedCorrectlyWhenClearingTwoRows() {
+        board.spawn(Shape.O);
+        board.move(-3, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(-1, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(1, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(3, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(5, 18);
+        board.move(0, 1);
+        assertEquals(score.getScore(), 100);
+    }
+    
+    // no ei voi mitään...
+    
+    @Test
+    public void scoreIsIncrementedCorrectlyWhenClearingThreeRows() {
+        board.spawn(Shape.O);
+        board.move(-3, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(-1, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(1, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(3, 18);
+        board.move(0, 1);
+        board.spawn(Shape.I);
+        board.move(-3, 16);
+        board.move(0, 1);
+        board.spawn(Shape.I);
+        board.move(1, 16);
+        board.move(0, 1);
+        board.spawn(Shape.I);
+        board.rotate();
+        board.move(3, 16);
+        board.move(0, 1);
+        board.spawn(Shape.I);
+        board.rotate();
+        board.move(4, 16);
+        board.move(0, 1);
+        assertEquals(score.getScore(), 300);
+    }
+    
+    // alkaa menemään aavistuksen kömpelöksi
+    
+    @Test
+    public void scoreIsIncrementedCorrectlyWhenClearingFourRows() {
+        board.spawn(Shape.O);
+        board.move(-3, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(-1, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(1, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(3, 18);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(-3, 16);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(-1, 16);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(1, 16);
+        board.move(0, 1);
+        board.spawn(Shape.O);
+        board.move(3, 16);
+        board.move(0, 1);
+        board.spawn(Shape.I);
+        board.rotate();
+        board.move(3, 16);
+        board.move(0, 1);
+        board.spawn(Shape.I);
+        board.rotate();
+        board.move(4, 16);
+        board.move(0, 1);
+        assertEquals(score.getScore(), 1200);
     }
 }

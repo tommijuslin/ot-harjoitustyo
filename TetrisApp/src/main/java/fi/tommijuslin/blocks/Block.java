@@ -1,13 +1,9 @@
 package fi.tommijuslin.blocks;
 
-
-import java.util.Random;
-
 public class Block {
 
     private int x;
     private int y;
-    Random rand = new Random();
 
     public Block(int x, int y) {
         this.x = x;

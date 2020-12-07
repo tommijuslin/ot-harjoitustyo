@@ -1,4 +1,3 @@
-
 package fi.tommijuslin.score;
 
 import java.io.BufferedReader;
@@ -12,15 +11,49 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-import javafx.scene.control.Label;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class Score {
-    private final Label lblScore;
+    private final String lblScore;
+    private final IntegerProperty score = new SimpleIntegerProperty();
     
-    public Score(Label lblScore, VBox vbox) {
+//    public Score(Label lblScore) {
+//        this.lblScore = lblScore;
+//    }
+    
+    public Score(String lblScore) {
         this.lblScore = lblScore;
+    }
+    
+    /**
+     * Lisää pisteitä tuhottavien rivien määrän mukaisesti
+     */
+    
+    public void incrementScore(int numberOfRows) {
+        switch (numberOfRows) {
+            case 4:
+                this.score.set(score.get() + 1200);
+                break;
+            case 3:
+                this.score.set(score.get() + 300);
+                break;
+            case 2:
+                this.score.set(score.get() + 100);
+                break;
+            case 1:
+                this.score.set(score.get() + 40); 
+        }
+    }
+    
+    public IntegerProperty scoreProperty() {
+        return score;
+    }
+    
+    public void initScore() {
+        this.score.set(0);
     }
     
     /**
@@ -96,12 +129,12 @@ public class Score {
         int lowestScore = getLowestScore();
         int lines = getNumberOfLines();
         
-        if (Integer.parseInt(lblScore.getText()) > lowestScore && lines == 10) {
+        if (Integer.parseInt(lblScore) > lowestScore && lines == 10) {
             try {
                 List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get("score.txt")));
                 for (int i = 0; i < fileContent.size(); i++) {
                     if (fileContent.get(i).equals(Integer.toString(lowestScore))) {
-                        fileContent.set(i, lblScore.getText());
+                        fileContent.set(i, lblScore);
                         break;
                     }
                 }
@@ -116,8 +149,8 @@ public class Score {
             try {
                 String filename = "score.txt";
                 FileWriter fw = new FileWriter(filename, true);
-                if (!lblScore.getText().equals("0")) {
-                    fw.write(lblScore.getText() + System.lineSeparator());
+                if (!lblScore.equals("0")) {
+                    fw.write(lblScore + System.lineSeparator());
                 }
                 fw.close();
             } catch (IOException e) {
@@ -162,5 +195,9 @@ public class Score {
             Text text = new Text(Integer.toString(score));
             vboxScores.getChildren().add(text);
         }
+    }
+    
+    public int getScore() {
+        return this.score.get();
     }
 }
