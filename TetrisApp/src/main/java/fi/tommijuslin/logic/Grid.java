@@ -23,7 +23,7 @@ public class Grid {
     
     /**
      * Lisää annetun palikan koordinaatit taulukkoon
-     * 
+     * f
      * @param block palikka
      */
     
