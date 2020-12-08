@@ -86,6 +86,7 @@ public class BoardTest {
         board.spawn(Shape.I);
         board.move(0, 17);
         board.move(0, 1);
+        board.move(0, 1);
         assertEquals(grid.getGrid()[18][3], 1);
         assertEquals(grid.getGrid()[18][4], 1);
         assertEquals(grid.getGrid()[18][5], 1);
@@ -179,7 +180,7 @@ public class BoardTest {
         board.move(1, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(5, 18);
+        board.move(4, 18);
         board.move(0, 1);
         assertEquals(grid.getGrid()[19][0], 0);
         assertEquals(grid.getGrid()[19][1], 0);
@@ -202,7 +203,7 @@ public class BoardTest {
         board.move(1, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(5, 18);
+        board.move(4, 18);
         board.move(0, 1);
         assertEquals(score.getScore(), 40);
     }
@@ -212,19 +213,19 @@ public class BoardTest {
     @Test
     public void scoreIsIncrementedCorrectlyWhenClearingTwoRows() {
         board.spawn(Shape.O);
-        board.move(-3, 18);
+        board.move(-4, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(-1, 18);
+        board.move(-2, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(1, 18);
+        board.move(0, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(3, 18);
+        board.move(2, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(5, 18);
+        board.move(4, 18);
         board.move(0, 1);
         assertEquals(score.getScore(), 100);
     }
@@ -234,16 +235,16 @@ public class BoardTest {
     @Test
     public void scoreIsIncrementedCorrectlyWhenClearingThreeRows() {
         board.spawn(Shape.O);
-        board.move(-3, 18);
+        board.move(-4, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(-1, 18);
+        board.move(-2, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(1, 18);
+        board.move(0, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(3, 18);
+        board.move(2, 18);
         board.move(0, 1);
         board.spawn(Shape.I);
         board.move(-3, 16);
@@ -267,28 +268,28 @@ public class BoardTest {
     @Test
     public void scoreIsIncrementedCorrectlyWhenClearingFourRows() {
         board.spawn(Shape.O);
-        board.move(-3, 18);
+        board.move(-4, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(-1, 18);
+        board.move(-2, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(1, 18);
+        board.move(0, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(3, 18);
+        board.move(2, 18);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(-3, 16);
+        board.move(-4, 16);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(-1, 16);
+        board.move(-2, 16);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(1, 16);
+        board.move(0, 16);
         board.move(0, 1);
         board.spawn(Shape.O);
-        board.move(3, 16);
+        board.move(2, 16);
         board.move(0, 1);
         board.spawn(Shape.I);
         board.rotate();

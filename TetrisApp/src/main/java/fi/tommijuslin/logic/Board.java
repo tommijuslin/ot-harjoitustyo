@@ -62,7 +62,8 @@ public class Board {
      */
     
     public void spawn(Shape shape) {
-        setNextShape(shape);
+//        setNextShape(shape);
+        this.shape = shape;
         
         List<Block> tetrominoBlocks = buildTetromino();
         
@@ -84,7 +85,6 @@ public class Board {
             this.shape = shape;
         }
         nextShape = Shape.getRandomShape();
-        System.out.println(nextShape.name());
     }
     
     /**

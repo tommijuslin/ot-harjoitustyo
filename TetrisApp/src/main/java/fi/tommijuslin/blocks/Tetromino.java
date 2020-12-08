@@ -11,7 +11,6 @@ import javafx.scene.shape.Rectangle;
 public class Tetromino {
     
     public List<Block> blocks = new ArrayList<>();
-    private final Random rand = new Random();
     private int x, y;
     private Color color;
     private final Color[] colors = {
