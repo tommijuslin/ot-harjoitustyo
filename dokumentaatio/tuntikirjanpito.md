@@ -9,4 +9,5 @@
 | 1.12  | 1    | viikon kolme laskarit jäi tekemättä, niin jouduin opettelemaan sekvenssikaavioiden luomisen nyt. Ensimmäinen sekvenssikaavio luotu. |
 | 4.12  | 9    | lisäsin menun ja pistesysteemin. Pisteet myös tallennetaan tiedostoon. Tein myös kaikenlaista muuta pikku säätöä. |
 | 5.12  | 2    | alustava javadoc, koodin refaktorointia ja muuta pientä kivaa |
-| yht   | 41   |
+| 7.12  | 2    | pääasiassa arkkitehtuurikuvauksen kirjoittelua. Kaavioiden tekeminen tuntuu todella hankalalta, joka viestii ehkä siitä että ohjelman rakenne on päin mäntyä. Yritin siivota Board-luokasta muutamia metodeja toiseen luokkaan edes jotenkin järkevällä tavalla. Rakenne tuntuu silti aika sekavalta. |
+| yht   | 43   |
