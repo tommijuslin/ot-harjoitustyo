@@ -13,16 +13,28 @@ public class Tetromino {
     public List<Block> blocks = new ArrayList<>();
     private final Random rand = new Random();
     private int x, y;
-    private final Color color;
+    private Color color;
     private final Color[] colors = {
-        Color.CYAN, Color.DODGERBLUE, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUEVIOLET, Color.RED
+        Color.CYAN, Color.DODGERBLUE, Color.ORANGE, Color.YELLOW,
+        Color.LIGHTGREEN, Color.BLUEVIOLET, Color.RED
+    };
+    private final String[] shapes = {
+        "I", "J", "L", "O", "S", "T", "Z"
     };
 
-    public Tetromino(List<Block> blocks) {
+    public Tetromino(List<Block> blocks, Shape shape) {
         this.blocks = blocks;
-        this.color = colors[rand.nextInt(7)];
+        pickColor(shape);
         this.x = 0;
         this.y = 0;
+    }
+    
+    private void pickColor(Shape shape) {
+        for (int i = 0; i < shapes.length; i++) {
+            if (shape.name().equals(shapes[i])) {
+                color = colors[i];
+            }
+        }
     }
     
     /**

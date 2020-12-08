@@ -19,6 +19,7 @@ public class Board {
     public boolean gameOver = false;
     private int[][] pattern;
     private Shape shape;
+    private Shape nextShape = null;
     private final Pane pane;
     private final Grid grid;
     private final Score score;
@@ -61,10 +62,11 @@ public class Board {
      */
     
     public void spawn(Shape shape) {
-        this.shape = shape;
+        setNextShape(shape);
+        
         List<Block> tetrominoBlocks = buildTetromino();
         
-        Tetromino tetromino = new Tetromino(tetrominoBlocks);
+        Tetromino tetromino = new Tetromino(tetrominoBlocks, this.shape);
         tetrominos.add(tetromino);
         currentTetromino = tetromino;
         
@@ -73,6 +75,16 @@ public class Board {
         } else {
             move(3, 0);
         }  
+    }
+    
+    private void setNextShape(Shape shape) {
+        if (nextShape != null) {
+            this.shape = nextShape;
+        } else {
+            this.shape = shape;
+        }
+        nextShape = Shape.getRandomShape();
+        System.out.println(nextShape.name());
     }
     
     /**

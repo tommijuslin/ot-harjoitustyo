@@ -32,7 +32,7 @@ public class Tetris extends Application {
     @Override
     public void start(Stage stage) {
         score.createScoreFile();
-        score.updateAndListScores(vboxScores);
+        score.updateAndListScores(vboxScores);   
         
         GridPane gridPane = new GridPane();
         
