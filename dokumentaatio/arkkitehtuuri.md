@@ -16,6 +16,8 @@ Ohjelmassa on kolme näkymää:
 - high score
 - itse peliruutu
 
+Alkuvalikosta pelaaja voi aloittaa pelin, siirtyä tarkastelemaan saavutettuja pistemääriä tai sulkea pelin. High Score -näkymä näyttää pistetilanteen.
+
 ## Sovelluslogiikka
 
 Pelin palikat (tetrominot) rakennetaan neljästä yksittäisestä Block-oliosta. Tetrominoon tallennetaan neljän Blockin sisältämä yksiulotteinen taulukko. Board pitää sisällään kaikki luodut Tetrominot. Boardista löytyy myös yksi Grid-olio, jonka avulla pidetään kirjaa kaikkien Tetrominojen sijainneista.
