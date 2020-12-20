@@ -18,7 +18,7 @@ Sovellus on versio klassisesta Tetris-pelistä, jossa pelaajan päämääränä 
 ### Pelin aloittamisen jälkeen
 :heavy_check_mark: käyttäjä voi liikuttaa palikkaa oikealle ja vasemmalle  
 :heavy_check_mark: käyttäjä voi nopeuttaa palikan putoamista  
-:heavy_check_mark: käyttäjä voi pyörittää palikoita vasemmalle tai oikealle -> **muutos:** *lopullisessa versiossa palikoita voidaan pyörittää vain myötäpäivään*  
+:heavy_check_mark: käyttäjä voi pyörittää palikoita myötäpäivään
 :heavy_check_mark: käyttäjä voi kerätä pisteitä asettelemalla palikoita niin, että ne muodostavat vaakarivin  
 :heavy_check_mark: käyttäjä voi siirtyä pelistä takaisin valikkoon  
 :heavy_check_mark: seuraava palikka generoidaan satunnaisesti  
