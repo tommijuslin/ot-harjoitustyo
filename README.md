@@ -11,6 +11,8 @@ Tämä versio Tetriksestä on Helsingin yliopiston Ohjelmistotekniikka-kurssia v
 
 [Käyttöohje](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
+[Testausdokumentti](https://github.com/tommijuslin/ot-harjoitustyo/blob/master/dokumentaatio/testausdokumentti.md)
+
 
 ## Releaset
 
